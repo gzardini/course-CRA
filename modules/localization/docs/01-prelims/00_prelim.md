@@ -1,0 +1,3 @@
+# Preliminaries {#cra-loc-prelim status=ready}
+
+Preliminaries...

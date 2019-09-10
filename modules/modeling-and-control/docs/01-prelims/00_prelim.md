@@ -1,0 +1,3 @@
+# Preliminaries {#cra-mac-prelim status=ready}
+
+Preliminaries...

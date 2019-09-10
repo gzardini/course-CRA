@@ -1,0 +1,3 @@
+# Preliminaries {#cra-plan-prelim status=ready}
+
+Preliminaries...
