@@ -1,3 +1,3 @@
-# Exercises {#cra-mac-lm status=ready}
+# Exercises {#cra-mac-exer status=ready}
 
 Exercises

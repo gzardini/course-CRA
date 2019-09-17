@@ -1,3 +1,3 @@
-# Exercises {#cra-per-lm status=ready}
+# Exercises {#cra-per-exercsie status=ready}
 
 Exercises

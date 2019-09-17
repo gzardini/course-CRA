@@ -1,3 +1,3 @@
-# Exercises {#cra-loc-lm status=ready}
+# Exercises {#cra-loc-exercise status=ready}
 
 Exercises

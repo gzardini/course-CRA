@@ -1,3 +1,3 @@
-# Exercises {#cra-plan-lm status=ready}
+# Exercises {#cra-plan-exer status=ready}
 
 Exercises
