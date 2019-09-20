@@ -1,4 +1,4 @@
 
-# Localization {#part:cra-perception status=ready}
+# Localization {#part:cra-localization status=ready}
 
 Part about localization.
