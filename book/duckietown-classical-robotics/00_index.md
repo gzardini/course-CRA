@@ -25,8 +25,6 @@ Excerpt: Learn the classical robotics architectures
 </style>
 
 
-
-
 <div style='page-break-before: always'>
 </div>
 
