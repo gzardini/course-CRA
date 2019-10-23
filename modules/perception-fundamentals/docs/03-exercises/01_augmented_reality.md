@@ -7,17 +7,17 @@ In particular the focus is in the perception pipeline, where you will implement 
 
 
 <div class='requirements' markdown='1'>
-  Requires: [Docker basics](+RH#docker-basics)
+  Requires: [Camera calibration](+opmanual_duckiebot#camera-calib)
 
-  Requires: [ROS basics](+RH#part:sw-advanced)
+  Requires: [Docker basics](+duckietown-robotics-development#docker-basics)
 
-  Requires: [Knowledge of the software architecture on a Duckiebot](+RH#duckietown-code-structure)
+  Requires: [ROS basics](+duckietown-robotics-development#part:sw-advanced)
 
-  Requires: Hands-on Robotics Development using Duckietown
+  Requires: [Knowledge of the software architecture on a Duckiebot](+duckietown-robotics-development#duckietown-code-structure)
 
   Results: Skills on how to develop new code as part of the Duckietown framework
 
-  Results: Insights in a computer graphics pipeline.
+  Results: Insights into a computer graphics pipeline.
 </div>
 
 
@@ -25,7 +25,9 @@ In particular the focus is in the perception pipeline, where you will implement 
 
 During lectures, we explained one direction of the image pipeline:
 
-    image -> [feature extraction] -> 2D features -> [ground projection] -> 3D world coordinates
+<figure>
+  <img style="width:40em" src="images/image_pipeline.png"/>
+</figure>
 
 In this exercise, we are going to look at the pipeline in the opposite direction.
 
@@ -34,16 +36,16 @@ It is often said that:
 > "The inverse of computer vision is computer graphics."
 
 The inverse pipeline looks like this:
-
-    3D world coordinates -> [image projection] -> 2D features -> [rendering] -> image
-
+<figure>
+  <img style="width:40em" src="images/graphics.png"/>
+</figure>
 In simple words, instead of extracting information from our camera, we want to introduce some data in the imagery.
 
 
 ## Instructions
 
 
-* Do intrinsics/extrinsics [camera calibration](+opmanual_duckiebot#camera-calib) of your robot.
+* Ensure that you have already done intrinsics and extrinsics [camera calibration]() of your robot.
 * Create a package called `augmented_reality` with functionalities specified below in [](#exercise-augmented-reality-spec).
 
 
@@ -55,21 +57,21 @@ Then verify the results in the following 3 situations.
 * Put the robot in the middle of the calibration pattern.
 * Run the node `augmented_reality` with map file `calibration_pattern.yaml`.
 
-(Adjust the position until you get perfect match of reality and augmented reality.)
+(Adjust the position of your Duckiebot until you get a decent match of reality and augmented reality.)
 
 ### Situation 2: Lane
 
 * Put the robot in the middle of a lane.
 * Run the node `augmented_reality` with map file `lane.yaml`.
 
-(Adjust the position until you get a perfect match of reality and augmented reality.)
+(Adjust the position of your Duckiebot of your Duckiebot until you get a decent match of reality and augmented reality.)
 
 ### Situation 3: Intersection
 
 * Put the robot at a stop line at a 4-way intersection in Duckietown.
 * Run the node `augmented_reality` with map file `intersection_4way.yaml`.
 
-(Adjust the position until you get a perfect match of reality and augmented reality.)
+(Adjust the position of your Duckiebot until you get a decent match of reality and augmented reality.)
 
 ### Submission
 
@@ -91,7 +93,7 @@ in addition, create a map folder where you can store the map files.
 The program does the following:
 
 1. It loads the intrinsic / extrinsic calibration parameters for the given robot.
-2. It reads the map file, using the map file given at launch.
+2. It reads the map file, using the map file given in the roslaunch command.
 3. It listens to the image topic `/![robot name]/camera_node/image/compressed`.
 4. It reads each image, projects the map features onto the image, and then writes the resulting image to the topic
 
