@@ -26,7 +26,7 @@ In particular the focus is in the perception pipeline, where you will implement 
 During lectures, we explained one direction of the image pipeline:
 
 <figure>
-  <img style="width:40em" src="images/image_pipeline.png"/>
+  <img style="width:30em" src="images/image_pipeline.png"/>
 </figure>
 
 In this exercise, we are going to look at the pipeline in the opposite direction.
@@ -37,7 +37,7 @@ It is often said that:
 
 The inverse pipeline looks like this:
 <figure>
-  <img style="width:40em" src="images/graphics.png"/>
+  <img style="width:30em" src="images/graphics.png"/>
 </figure>
 In simple words, instead of extracting information from our camera, we want to introduce some data in the imagery.
 
@@ -89,9 +89,7 @@ The program does the following:
 1. It loads the intrinsic / extrinsic calibration parameters for the given robot.
 2. It reads the map file, using the map file given in the roslaunch command.
 3. It listens to the image topic `/![robot name]/camera_node/image/compressed`.
-4. It reads each image, projects the map features onto the image, and then writes the resulting image to the topic
-
-       /![robot name]/![node_name]/![map file basename]/image/compressed
+4. It reads each image, projects the map features onto the image, and then writes the resulting image to the topic `/![robot name]/![node_name]/![map file basename]/image/compressed`
 
 where `![map file basename]` is the basename of the file without the extension.
 
