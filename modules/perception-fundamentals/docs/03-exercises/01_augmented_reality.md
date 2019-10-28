@@ -73,12 +73,6 @@ Then verify the results in the following 3 situations.
 
 (Adjust the position of your Duckiebot until you get a decent match of reality and augmented reality.)
 
-### Submission
-
-Submit the images for each setup on the Google form, along with your code.
-
-TODO: Google form! Code?
-
 ## Specification of `augmented_reality` {#exercise-augmented-reality-spec}
 
 In this assignment you will be writing a ROS package to perform the augmented reality exercise. The program will be invoked with the following syntax:
