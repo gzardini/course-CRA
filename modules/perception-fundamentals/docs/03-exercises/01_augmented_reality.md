@@ -104,7 +104,7 @@ The class should contain the following methods:
 2. A method called `ground2pixel` that transforms points in ground coordinates (i.e. the robot reference frame) to pixels in the image.
 3. A method called `render_segments` that adds the segments from the map files to the image.
 
-In the ROS node, you just need a callback that uses the above speciefied class to modify the input image, so:
+In the ROS node, you just need a callback that uses the above specified class to modify the input image, so:
 
 1. Implement a method called `callback` that writes the augmented image to the appropriate topic.
 
