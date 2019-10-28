@@ -11,7 +11,7 @@ In particular the focus is in the perception pipeline, where you will implement 
 
   Requires: [Docker basics](+duckietown-robotics-development#docker-basics)
 
-  Requires: [ROS basics](+duckietown-robotics-development#part:sw-advanced)
+  Requires: [ROS basics](+duckietown-robotics-development#sw-advanced)
 
   Requires: [Knowledge of the software architecture on a Duckiebot](+duckietown-robotics-development#duckietown-code-structure)
 
@@ -217,7 +217,11 @@ This pattern is based off the checkerboard calibration target used in estimating
     - points: [BL, TL]
       color: yellow
 
-The expected result is to put a border around the inside corners of the checkerboard: red on the top, green on the right, blue on the bottom, yellow on the left.
+The expected result is to put a border around the inside corners of the checkerboard: red on the top, green on the right, blue on the bottom, yellow on the left, like below.
+
+<figure>
+  <img style="width:40em" src="images/calibration.png"/>
+</figure>
 
 ### `lane.yaml`
 
@@ -261,6 +265,11 @@ Then we have:
        color: white
      - points: [p6, q6]
        color: white
+
+Expected output:
+<figure>
+  <img style="width:40em" src="images/lane.png"/>
+</figure>
 
 ### `intersection_4way.yaml`
 
