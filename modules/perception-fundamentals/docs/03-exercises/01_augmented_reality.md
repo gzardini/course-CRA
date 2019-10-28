@@ -371,6 +371,25 @@ Start by using the file `hud.yaml`. To visualize it, you do not need the
 calibration data. It will be helpful to make sure that you can do the easy
 parts of the exercise: loading the map, and drawing the lines.
 
+To write the segments you can use this function:
+```python
+def draw_segment(self, image, pt_x, pt_y, color):
+    defined_colors = {
+        'red': ['rgb', [1, 0, 0]],
+        'green': ['rgb', [0, 1, 0]],
+        'blue': ['rgb', [0, 0, 1]],
+        'yellow': ['rgb', [1, 1, 0]],
+        'magenta': ['rgb', [1, 0 , 1]],
+        'cyan': ['rgb', [0, 1, 1]],
+        'white': ['rgb', [1, 1, 1]],
+        'black': ['rgb', [0, 0, 0]]}
+    _color_type, [r, g, b] = defined_colors[color]
+    cv2.line(image, (pt_x[0], pt_y[0]), (pt_x[1], pt_y[1]), (b * 255, g * 255, r * 255), 5)
+    return image
+```
+
+For other functionalities (i.e. loading calibration files), it could make sense to spend some time in looking into the existing Duckietown code.
+
 
 
 <!-- ## Useful APIs
