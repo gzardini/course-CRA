@@ -84,18 +84,18 @@ where `![map file]` is a YAML file containing the map (specified in [](#exercise
 The package structure *must* be the one provided by the [Duckietown template-ros](https://github.com/duckietown/template-ros),
 in addition, create a map folder where you can store the map files.
 
-The program does the following:
+Your program is supposed to do the following:
 
-1. It loads the intrinsic / extrinsic calibration parameters for the given robot.
-2. It reads the map file, using the map file given in the roslaunch command.
-3. It listens to the image topic `/![robot name]/camera_node/image/compressed`.
-4. It reads each image, projects the map features onto the image, and then writes the resulting image to the topic `/![robot name]/![node_name]/![map file basename]/image/compressed`
+1. Load the intrinsic / extrinsic calibration parameters for the given robot.
+2. Read the map file, using the map file given in the roslaunch command.
+3. Listen to the image topic `/![robot name]/camera_node/image/compressed`.
+4. Read each image, project the map features onto the image, and then write the resulting image to the topic `/![robot name]/![node_name]/![map file basename]/image/compressed`
 
 where `![map file basename]` is the basename of the file without the extension.
 
 <!-- We provide you with ROS package template that contains the `AugmentedRealityNode`. By default, launching the `AugmentedRealityNode` should publish raw images from the camera on the new `/![robot name]/AR/![map file basename]/image/compressed` topic. -->
 
-To complete the exercise, create a ROS node called `augmented_reality_node`, which imports an `Augmenter` class, from an `augmented_reality` module.
+Create a ROS node called `augmented_reality_node`, which imports an `Augmenter` class, from an `augmented_reality` module.
 The class should contain the following methods:
 
 1. A method called `process_image` that undistorts raw images.
