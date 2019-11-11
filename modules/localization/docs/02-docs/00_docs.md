@@ -4,7 +4,6 @@ Excerpt: Understand the components of the localization pipeline: from image to l
 
 The goal of this material is to familiarize us with the pipeline that extracts lane localization from the image stream. This is the base of the lane following demo.
 
-\hspace{100pt}
 
 <div figure-id="fig:goal_pipeline.png">
   <img style="width:40em" src="images/goal_pipeline.png"/>
