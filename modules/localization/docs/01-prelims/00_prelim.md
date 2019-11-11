@@ -49,7 +49,9 @@ After adding these 3 topics, rviz should show the output as in the figure above.
 
 ### Change rosparams
 
-Go back to the terminal where you launched rviz (the one inside the gui_tools container). The following functions will be useful to change the dynamic parameters in the exercises:
+The following functions will be useful to change the dynamic parameters in the exercises:
+
+    laptop $ dts start_gui_tools ![DUCKIEBOT_NAME]
 
 1) Listing the parameters:
 
