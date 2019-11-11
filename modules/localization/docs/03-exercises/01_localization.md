@@ -69,8 +69,8 @@ Note: When the duckiebot is perfectly aligned in the center of its lane, facing 
 
 ### Bayes filter
 
-Bayes filters are a probabilistic tool for estimating the state of dynamic systems. In the case of our Duckiebot, given a stream of observation (in this case the camera image) we compute a measurement likelihood matrix with a histogram filter. This enable us to calculate an initial belief. Then, we project the belief of the previous time step to the current time step. We can do this in the following way:
-
+As explained in the lecture, the Duckiebot estimates its pose with a Bayes filter. In order to update the belief matrix a measure_m
+_likelihood matrix is computed. The measurement_likelihood matrix 
 belief (t+1) = belief(t) * measurement_likelihood(t)
 
 From the belief, we then extract the pose d and angle phi with the highest probability.
