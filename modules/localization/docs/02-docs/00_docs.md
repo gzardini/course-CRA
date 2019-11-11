@@ -58,7 +58,7 @@ Snippet of the detectLines function:
             return Detections(lines=lines, normals=normals, area=bw, centers=centers)
         ...
 
-As you can see, the code first finds the colors on the image, then uses a Hough line detector from openCV, and extract the normals to the detected lines. Most of the work is in the Hough detector. Find the file [here](https://github.com/duckietown/dt-core/blob/daffy/packages/line_detector/include/line_detector/line_detector1.py) if you want to read more.
+As you can see, the code first filters the image pixels by color, then uses a Hough line detector from openCV, and extract the normals to the detected lines. Most of the work is in the Hough detector. Find the file [here](https://github.com/duckietown/dt-core/blob/daffy/packages/line_detector/include/line_detector/line_detector1.py) if you want to read more.
 
 ### The focus of the exercise
 
@@ -85,30 +85,48 @@ The lane filter node is responsible for estimating the position of the Duckiebot
 
 Lane pose (type: duckietown_msgs/lane_pose) is struct with the following parameters which are currently in use:
   
-  1. d (float32) the lateral offset, where d = 0 is the middle of the right lane
-  2. phi (float32) the angle from the center of the lane to the orientation of the duckiebot
+  1. $d$ (float32) the lateral offset, where $d$ = 0 is the middle of the right lane
+  2. $\phi$ (float32) the angle from the center of the lane to the orientation of the duckiebot
 
-Note: When the duckiebot is perfectly aligned in the center of its lane, facing forward, this estimation should be (d = 0.0, phi = 0.0)
+Note: When the duckiebot is perfectly aligned in the center of its lane, facing forward, this estimation should be $(d = 0.0, \phi = 0.0)$
 
 ### Bayes filter
 
-Bayes filters are a probabilistic tool for estimating the state of dynamic systems. In the case of our Duckiebot, given a stream of observation (in this case the camera image) we compute a measurement likelihood matrix with a histogram filter. This enable us to calculate an initial belief. Then, we project the belief of the previous time step to the current time step. We can do this in the following way:
+To track the estimated pose ($d$, $\phi$) of the duckiebot in the lane, we use a Bayes filter. As usual, it relies on the predict and update steps.
 
-belief (t+1) = belief(t) * measurement_likelihood(t)
+We will here focus on the update step, as the predict step is simply applying the model of the dynamics on the belief.
 
-From the belief, we then extract the pose d and angle phi with the highest probability.
+In this node, the estimation of ($d$, $\phi$) is represented as a matrix, holding $d$ on one axis and $\phi$ on the other. This means that the space of ($d$, $\phi$) is discretized. The discretization size is controlled by a `matrix_mesh_size` parameter. The bigger the discretization is, the rougher the estimates will be. The smaller the discretization is, the finer the estimates will be.
 
-### Histogram filter
+But since the max and min values of both $d$ and $\phi$ are constant, the size of the matrix increases when the discretization becomes thinner. In [](#exercise:laneFilter), you will have to play with this parameter to understand the trade-off between the granularity of the estimation and the computation time.
 
-Each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the corresponding (d, phi) tuple is extracted from geometric knowledge of the lane.
+Snippet of the bayes filter: 
 
-Each segment's extracted tuple (d, phi) casts a vote in the measurement likelihood histogram matrix. This matrix can be then displayed as an image stream.
+    def processSegments(self,segment_list_msg):
+        ...
+        self.filter.predict(dt=dt, v=v, w=w) (v and w come from car_cmd)
+        
+        #input: line segments from line detector
+        #output: belief matrix
+        self.filter.update(segment_list_msg.segments)
+        
+        #input: belief matrix
+        #output: maximal d and phi from belief matrix   
+        [d_max, phi_max] = self.filter.getEstimate()
+        ...
+
+
+### The histogram filter (for the update step) {#histogramfilter}
+
+Each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the corresponding ($d$, $\phi$) tuple is extracted from geometric knowledge of the lane.
+
+Each segment's extracted tuple ($d$, $\phi$) casts a vote in the measurement likelihood histogram matrix, as mentioned above. This matrix can be then displayed as an image stream.
 
 The hope is that the majority of segments will vote to the same area of the histogram. With this matrix, the belief matrix is updated.
 
-### Snippets of relevant code
+Them, from the updated belief matrix is extracted the maximum, which coordinates give us the best estimate of the tuple ($d$, $\phi$).
 
-Snippet of the the generation of votes for the histogram filter
+Snippet of the the generation of votes for the histogram filter:
 
     #Generation of votes for the the histogram filter
     def generateVote(self, segment):
@@ -136,7 +154,7 @@ Snippet of the the generation of votes for the histogram filter
                d_i = - d_i
                phi_i = -phi_i
            d_i = d_i - self.lanewidth        
-           elif segment.color == segment.YELLOW:  # left lane is yellow
+        elif segment.color == segment.YELLOW:  # left lane is yellow
            if (p2[0] > p1[0]):  # left edge of yellow lane
                d_i = d_i - self.linewidth_yellow
                phi_i = -phi_i
@@ -148,3 +166,5 @@ Snippet of the the generation of votes for the histogram filter
            d_i += self.center_lane_offset
 
            return d_i, phi_i, l_i, weight
+
+For more about this part of the code, go [here](https://github.com/duckietown/dt-core/blob/daffy/packages/lane_filter/include/lane_filter/lane_filter.py)

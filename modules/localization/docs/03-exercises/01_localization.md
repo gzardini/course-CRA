@@ -54,6 +54,6 @@ One of our brave Duckiebots wanted to make a visit to Great Britain before Brexi
 
 #### Driving the english style {#exercise:englishDriver}
 
-The task is to make the Duckiebot drive on the left side of the road. An appropriate parameter in the code snippet provided above is sufficient to finish this task.
+The task is to make the Duckiebot drive on the left side of the road. An appropriate parameter in the [provided code snippet](#histogramfilter) is sufficient to finish this task.
 
 <end/>
