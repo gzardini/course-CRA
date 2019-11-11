@@ -13,7 +13,7 @@ Run the exercise container:
 This container runs the lane following demo from dt-core. Additionaly it includes additional parameters which are important for this exercise.
 
 
-### Run Rviz
+### Run rviz
 
 Rviz (ROS visualization) is a 3D visualizer for displaying sensor data and state information from ROS. More on information can be found here: http://wiki.ros.org/rviz
 
@@ -23,15 +23,23 @@ For this exercise rviz will be helpful to display sensor messages from the Ducki
 <img style="width:30em" src="images/rosviz_screenshot.png"/>
 </figure>
 
-To start rviz run the following command
+To start rviz run the following container
 
-    laptop $ dts start_gui_tool ![DUCKIEBOT_NAME]
+    laptop $ docker run -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" duckietown/rviz-cra2:daffy-amd64 /bin/bash
 
 and then
 
-    laptop-container $ rviz &
+    laptop-container $ export ROS_MASTER_URI="![DUCKIEBOT_ROS_MASTER_URI]"
 
-The ampersand is necessary since dts_start_gui_tools only supports one terminal and we need to launch rosparam from dts_start_gui_tools too. After starting Rviz we need to add the required topics we want to inspect
+and also
+
+    laptop-container $ export ROS_IP=![DUCKIEBOT_ROS_MASTER_URI]
+
+finally we can do:
+
+    laptop-container $ rviz
+
+After starting Rviz we need to add the required topics we want to inspect
 
 1. `/DUCKIEBOT_NAME/duckiebot_visualizer/segment_list_markers`
 2. `/DUCKIEBOT_NAME/lane_filter_node/belief_img`

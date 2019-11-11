@@ -2,7 +2,14 @@
 
 Excerpt: Understand the components of the localization pipeline: from image to lane pose estimation.
 
+
+## Goal
+
 The goal of this material is to familiarize us with the pipeline that extract lane localization from the image stream. This is the base of the lane following demo.
+
+
+
+
 
 ## Overview of the pipeline
 
