@@ -3,25 +3,13 @@
 Preliminaries...
 
 
-## Helpful tools
+## Required steps
 
-### The belief histogram
-
-To see the belief histogram, run:
-
-    laptop $ dts start_gui_tools
-
-and then
-
-    laptop-container $ rqt_image_view
-
-Select the topic : `/DUCKIEBOT_NAME/lane_filter_node/belief_img`.
-
-### Rviz
+### Run Rviz
 
 Rviz (ROS visualization) is a 3D visualizer for displaying sensor data and state information from ROS. More on information can be found here: http://wiki.ros.org/rviz
 
-For this exercise rviz will be helpful to display sensor messages from the Duckiebot. In order to run rviz run:By selecting the appropriate topic we can output desired information. In particular xxxx and xxx will be useful in this exercise.
+For this exercise rviz will be helpful to display sensor messages from the Duckiebot. By selecting the appropriate topic we can output desired information.
 
 <figure>
 <img style="width:30em" src="images/rosviz_screenshot.png"/>
@@ -33,15 +21,20 @@ To start rviz run the following command
 
 and then
 
-    laptop-container $ rviz
-  
-**Rosparameter manipulation:**
+    laptop-container $ rviz &
 
-TODO: Tomasz : say how to run everything with the same gui_tools container !
+The ampersand is necessary since dts_start_gui_tools only supports one terminal and we need to launch rosparam from dts_start_gui_tools too. After starting Rviz we need to add the required topics we want to inspect
 
-As a reminder: for rosparameter introspection and manipulation we recommend the following steps:
+1. `/DUCKIEBOT_NAME/duckiebot_visualizer/segment_list_markers`
+2. `/DUCKIEBOT_NAME/lane_filter_node/belief_img`
+3. `/DUCKIEBOT_NAMElane_pose_visualizer_node/lane_pose_markers`
 
-    laptop $ dts start_gui_tools ![DUCKIEBOT_NAME]
+after adding these 3 topics, rviz should show the output as in the figure above.
+
+
+### Change rosparams 
+
+open the same terminal as rviz. the following functions will be useful to change the dynamic parameters: 
 
 1) Listing the parameters:
 
@@ -54,4 +47,3 @@ As a reminder: for rosparameter introspection and manipulation we recommend the 
 3) Setting the parameters:
 
     container $ rosparam set parameter_name value
-
