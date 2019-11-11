@@ -39,10 +39,9 @@ The ampersand is necessary since dts_start_gui_tools only supports one terminal 
 
 After adding these 3 topics, rviz should show the output as in the figure above.
 
+### Change rosparams
 
-### Change rosparams 
-
-Go back to the terminal where you launched rviz (the one inside the gui_tools container). The following functions will be useful to change the dynamic parameters in the exercises: 
+Go back to the terminal where you launched rviz (the one inside the gui_tools container). The following functions will be useful to change the dynamic parameters in the exercises:
 
 1) Listing the parameters:
 
@@ -50,7 +49,7 @@ Go back to the terminal where you launched rviz (the one inside the gui_tools co
 
 2) Getting the parameters:
 
-    container $ rosparam get ![PARAMTER_NAME]
+    container $ rosparam get ![PARAMETER_NAME]
 
 3) Setting the parameters:
 
