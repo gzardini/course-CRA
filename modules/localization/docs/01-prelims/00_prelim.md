@@ -1,7 +1,6 @@
 # Preliminaries {#cra-loc-prelim status=ready}
 
-Preliminaries...
-
+Excerpt: Instructions on how to setup your workflow for the exercise 
 
 ## Required steps
 
