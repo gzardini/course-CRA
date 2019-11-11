@@ -67,7 +67,7 @@ Snippet of the detectLines function:
             return Detections(lines=lines, normals=normals, area=bw, centers=centers)
         ...
 
-As you can see, the code first filters the image pixels by color, then uses a Hough line detector from openCV, and extract the normals to the detected lines. Most of the work is in the Hough detector. Find the file [here](https://github.com/duckietown/dt-core/blob/daffy/packages/line_detector/include/line_detector/line_detector1.py) if you want to read more.
+In a nutshell, the code first filters the image pixels by color, then uses a Hough line detector from openCV, and extract the normals to the detected lines. The most important part is executed in the Hough detector. Find the file [here](https://github.com/duckietown/dt-core/blob/daffy/packages/line_detector/include/line_detector/line_detector1.py) if you want to read more.
 
 ### The focus of the exercise
 
