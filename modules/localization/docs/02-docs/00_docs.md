@@ -1,8 +1,10 @@
 # Learning materials {#cra-loc-lm status=ready}
 
-Learning materials
+Excerpt: Understand the components of the localization pipeline: from image to lane pose estimation.
 
-## Introduction
+The goal of this exercise is to familiarize us with the pipeline that extract lane localization from the image stream. This is the base of the lane following demo.
+
+## Overview of the pipeline
 
 Determining its own position in the lane is essential for any Duckiebot to survive in the city. In the following section we will go step by step through the various steps of the image pipeline: from image to position.
 
@@ -11,7 +13,6 @@ Fig. 4.1 shows the 2 important parts of the localization, the **line detector** 
 <figure>
   <img style="width:30em" src="images/image_pipeline_overview.png"/>
 </figure>
-
 
 ## Line detector node
 

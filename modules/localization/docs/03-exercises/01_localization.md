@@ -1,9 +1,8 @@
 # Exercises - lane pose estimation {#exercise-localization status=ready}
 
-Excerpt: Understand the components of the imaging pipelime: from image to localization.
+Excerpt: Play with the parameters of the localization pipeline.
 
-The goal of this exercise is to familiarize us with the pipeline that extract lane localization from the image stream. This is the base of the lane following demo.
-
+The goal of this exercise is to play with existing parameters to understand the different trade-offs mentioned in [](#cra-loc-lm).
 
 <div class='requirements' markdown='1'>
   Requires: [Camera calibration](+opmanual_duckiebot#camera-calib)
