@@ -35,14 +35,14 @@ The ampersand is necessary since dts_start_gui_tools only supports one terminal 
 
 1. `/DUCKIEBOT_NAME/duckiebot_visualizer/segment_list_markers`
 2. `/DUCKIEBOT_NAME/lane_filter_node/belief_img`
-3. `/DUCKIEBOT_NAMElane_pose_visualizer_node/lane_pose_markers`
+3. `/DUCKIEBOT_NAME/lane_pose_visualizer_node/lane_pose_markers`
 
-after adding these 3 topics, rviz should show the output as in the figure above.
+After adding these 3 topics, rviz should show the output as in the figure above.
 
 
 ### Change rosparams 
 
-Open the same terminal as rviz. the following functions will be useful to change the dynamic parameters: 
+Go back to the terminal where you launched rviz (the one inside the gui_tools container). The following functions will be useful to change the dynamic parameters in the exercises: 
 
 1) Listing the parameters:
 
@@ -50,10 +50,10 @@ Open the same terminal as rviz. the following functions will be useful to change
 
 2) Getting the parameters:
 
-    container $ rosparam get parameter_name
+    container $ rosparam get ![PARAMTER_NAME]
 
 3) Setting the parameters:
 
-    container $ rosparam set parameter_name value
+    container $ rosparam set ![PARAMETER_NAME] ![VALUE]
 
 
