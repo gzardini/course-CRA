@@ -29,11 +29,11 @@ To start rviz run the following container
 
 and then
 
-    laptop-container $ export ROS_MASTER_URI="![DUCKIEBOT_ROS_MASTER_URI]"
+    laptop-container $ export ROS_MASTER_URI="http://![DUCKIEBOT_IP]:11311"
 
 and also
 
-    laptop-container $ export ROS_IP=![DUCKIEBOT_ROS_MASTER_URI]
+    laptop-container $ export ROS_IP=![DUCKIEBOT_IP]
 
 finally we can do:
 
