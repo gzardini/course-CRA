@@ -23,7 +23,7 @@ The goal of this exercise is to familiarize us with the imaging pipeline to loca
 
 Determining the position is essential for any Duckiebot to survive in the city. In the following section we will go step by step through the various passages of the image pipeline: from image to position.
 
-Fig. XX shows the 3 important of the localization:
+Fig. 4.1 shows the 3 important parts of the localization:
 
 <figure>
   <img style="width:30em" src="images/image_pipeline_overview.png"/>
