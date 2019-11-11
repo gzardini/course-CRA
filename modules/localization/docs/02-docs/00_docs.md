@@ -5,6 +5,10 @@ Excerpt: Understand the components of the localization pipeline: from image to l
 The goal of this material is to familiarize us with the pipeline that extracts lane localization from the image stream. This is the base of the lane following demo.
 
 
+<div figure-id="fig:goal_pipeline.png">
+  <img style="width:40em" src="images/goal_pipeline.png"/>
+  <figcaption> going from image to pose</figcaption>
+</div>
 
 
 
@@ -63,7 +67,7 @@ Snippet of the detectLines function:
             return Detections(lines=lines, normals=normals, area=bw, centers=centers)
         ...
 
-As you can see, the code first filters the image pixels by color, then uses a Hough line detector from openCV, and extract the normals to the detected lines. Most of the work is in the Hough detector. Find the file [here](https://github.com/duckietown/dt-core/blob/daffy/packages/line_detector/include/line_detector/line_detector1.py) if you want to read more.
+In a nutshell, the code first filters the image pixels by color, then uses a Hough line detector from openCV, and extract the normals to the detected lines. The most important part is executed in the Hough detector. Find the file [here](https://github.com/duckietown/dt-core/blob/daffy/packages/line_detector/include/line_detector/line_detector1.py) if you want to read more.
 
 ### The focus of the exercise
 
