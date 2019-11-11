@@ -19,10 +19,6 @@ The goal of this exercise is to familiarize us with the pipeline that extract la
   Results: Insights into the image pipeline of a duckiebot.
 </div>
 
-
-
-
-
 ## Task 1: Line detector exercise
 
 As previously introduced, the `line_detector_node` detects white, yellow and red segments. The more segments we get, the more accurate we expect the lane filter to be, but also the more resources we need for computation of the pose estimate (memory as well as cpu). This is a trade-off of accuracy versus computation efficiency. The goal of this exercise is to analyze this trade-off by determining the relationship between the number of segments processed and the quality and frequency of pose estimates that are being computed.
