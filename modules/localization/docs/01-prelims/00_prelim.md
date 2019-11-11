@@ -10,7 +10,7 @@ Run the exercise container:
 
     laptop $ docker -H ![DUCKIEBOT_NAME].local run --name lane_following_cra2 --net host -v /data:/data duckietown/lane-following-cra2:daffy
 
-This container runs the lane following demo from dt-core. Additional it includes additional parameters which are important for this exercise
+This container runs the lane following demo from dt-core. Additionaly it includes additional parameters which are important for this exercise.
 
 
 ### Run Rviz
