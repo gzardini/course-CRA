@@ -2,7 +2,7 @@
 
 Excerpt: Understand the components of the imaging pipelime: from image to localization.
 
-The goal of this exercise is to familiarize us with the imaging pipeline to localization, which is the base for the lane following demo.
+The goal of this exercise is to familiarize us with the pipeline that extract lane localization from the image stream. This is the base of the lane following demo.
 
 
 <div class='requirements' markdown='1'>
@@ -14,41 +14,60 @@ The goal of this exercise is to familiarize us with the imaging pipeline to loca
 
   Requires: [Knowledge of the software architecture on a Duckiebot](+duckietown-robotics-development#duckietown-code-structure)
 
-  Results: Understand the trade-offs when dealing with image processing
+  Results: Understand the trade-offs when dealing with image processing parameters
 
   Results: Insights into the image pipeline of a duckiebot.
 </div>
 
 ## Introduction
 
-Determining the position is essential for any Duckiebot to survive in the city. In the following section we will go step by step through the various passages of the image pipeline: from image to position.
+Determining its own position in the lane is essential for any Duckiebot to survive in the city. In the following section we will go step by step through the various steps of the image pipeline: from image to position.
 
-Fig. 4.1 shows the 3 important parts of the localization:
+Fig. 4.1 shows the 2 important parts of the localization, the **line detector** and the **lane filter**, and where they stand in the whole image to control pipeline. The control aspect will be the focus of the next set of exercises. We will focus here only on the two above-mentioned parts.
 
 <figure>
   <img style="width:30em" src="images/image_pipeline_overview.png"/>
 </figure>
 
 
-### Line detector node
+## Line detector node
 
-* Line detector node is responsible for detecting line in front of the Duckiebot in three different colours: red, white and yellow.    
-   
-* Published by line detector node:
+### Role of the node
 
-Segment list (type: SegmentList.msg) is an array which saves all segments (type: Segment.msg) found in the image. A segment consists of colour (red, yellow, white) and 2D vector (startpoint, endpoint)
-    
-### Lane filter node
+The line detector node is responsible for detecting lines in the field of view of the Duckiebot, of three different colours: red, white and yellow.
 
-* Lane filter node is responsible for estimating the reference position of the Duckiebot with respect to the lanes.    
-  
-* Published by lane filter node:
+### Ros interfacing of the node
+
+**The line detector node subscribes to:**
+
+* The corrected image stream
+
+**The line detector node publishes:**
+
+* Segment list (type: SegmentList.msg) is an array which saves all segments (type: Segment.msg) found in the image. A segment consists of colour (red, yellow, white) and 2D vector (startpoint, endpoint).
+
+## Lane filter node
+
+### Role of the node
+
+The lane filter node is responsible for estimating the position of the Duckiebot with respect to the center of the driving lane.  
+
+### Ros interfacing of the node
+
+**The lane filter node subscribes to:**
+
+* The segment list from the line detector node
+
+**The lane filter node publishes:**
+
 Lane pose (type: duckietown_msgs/lane_pose) is struct with the following parameters which are currently in use:
   
   1. d (float32) the lateral offset, where d = 0 is the middle of the right lane
-  2. phi (float32) probably the angle
+  2. phi (float32) the angle from the center of the lane to the orientation of the duckiebot
 
-#### Bayes filter
+Note: When the duckiebot is perfectly aligned in the center of its lane, facing forward, this estimation should be (d = 0.0, phi = 0.0)
+
+### Bayes filter
 
 Bayes filters are a probabilistic tool for estimating the state of dynamic systems. In the case of our Duckiebot, given a stream of observation (in this case the camera image) we compute a measurement likelihood matrix with a histogram filter. This enable us to calculate an initial belief. Then, we project the belief of the previous time step to the current time step. We can do this in the following way:
 
@@ -56,21 +75,9 @@ belief (t+1) = belief(t) * measurement_likelihood(t)
 
 From the belief, we then extract the pose d and angle phi with the highest probability.
 
-#### Histogram filter
+### Histogram filter
 
-each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the horizontal distance from the white/yellow segment to the desired position (middle point between right white lane and yellow lane) is calculated. The same is done for the angle phi. For all the segments a histogram is calculated which can be then display under as an image stream. 
-
-To see it run
-
-    laptop $ dts start_gui_tools
-
-and then
-
-    laptop-container $ rqt_image_view
-
-select the topic : /studentbot09/lane_filter_node/ml
-
-
+Each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the horizontal distance from the white/yellow segment to the desired position (middle point between right white lane and yellow lane) is calculated. The same is done for the angle phi. For all the segments a histogram is calculated which can be then display under as an image stream.
 
 Snippet of the the generation of votes for the histogram filter
 
@@ -115,35 +122,54 @@ Snippet of the the generation of votes for the histogram filter
 
 ## Helpful tools
 
-* Rviz 
-    (ROS visualization) is a 3D visualizer for displaying sensor data and state information from ROS. More on information can be found here: http://wiki.ros.org/rviz
-    For this exercise rviz will be helpful to display sensor messages from the Duckiebot. In order to run rviz run:By selecting the appropriate topic we can output desired information. In particular xxxx and xxx will be useful in this exercise.
+### The belief histogram
 
-    <figure>
-    <img style="width:30em" src="images/rosviz_screenshot.png"/ >
-    </figure>
+To see the belief histogram, run:
 
-    To start rviz run the following command
+    laptop $ dts start_gui_tools
 
-    laptop $ dts start_gui_tool rviz
+and then
+
+    laptop-container $ rqt_image_view
+
+Select the topic : `/DUCKIEBOT_NAME/lane_filter_node/belief_img`.
+
+### Rviz
+
+Rviz (ROS visualization) is a 3D visualizer for displaying sensor data and state information from ROS. More on information can be found here: http://wiki.ros.org/rviz
+
+For this exercise rviz will be helpful to display sensor messages from the Duckiebot. In order to run rviz run:By selecting the appropriate topic we can output desired information. In particular xxxx and xxx will be useful in this exercise.
+
+<figure>
+<img style="width:30em" src="images/rosviz_screenshot.png"/>
+</figure>
+
+To start rviz run the following command
+
+    laptop $ dts start_gui_tool ![DUCKIEBOT_NAME]
+
+and then
+
+    laptop-container $ rviz
   
-* Rosparameter manipulation
+**Rosparameter manipulation:**
 
-    As a reminder:
-    for rosparameter introspection and manipulation we recommend the following steps:
+TODO: Tomasz : say how to run everything with the same gui_tools container !
 
-    laptop $ dts start_gui_tools DUCKIEBOT_HOSTNAME
+As a reminder: for rosparameter introspection and manipulation we recommend the following steps:
 
-  1) Listing the parameters:
-    
+    laptop $ dts start_gui_tools ![DUCKIEBOT_NAME]
+
+1) Listing the parameters:
+
     container $ rosparam list
 
-  2) Getting the parameters:
-    
+2) Getting the parameters:
+
     container $ rosparam get parameter_name
 
-  3) Setting the parameters:
-    
+3) Setting the parameters:
+
     container $ rosparam set parameter_name value
 
 
@@ -152,26 +178,32 @@ Snippet of the the generation of votes for the histogram filter
 
 ### Task 1: Line detector exercise
 
-As previously introduced, the line_detector_node detects white, yellow and red segments. Due to computational constraints of the Duckiebot, a trade-off between the number of segments processed and computational resources allocated has to be made. The goal of this exercise is to analyze this trade-off by determining the relationship between the number of segments processed and the number of pose estimates that are being computed. For this task the parameter
+As previously introduced, the `line_detector_node` detects white, yellow and red segments. The more segments we get, the more accurate we expect the lane filter to be, but also the more resources we need for computation of the pose estimate (memory as well as cpu). This is a trade-off of accuracy versus computation efficiency. The goal of this exercise is to analyze this trade-off by determining the relationship between the number of segments processed and the quality and frequency of pose estimates that are being computed.
 
-- /BOT_NAME/line_detector_node/segment_max_threshold
+For this task the parameter `/DUCKIEBOT_NAME/line_detector_node/segment_max_threshold` can be dynamically adjusted.
 
-can be dynamically adjusted.
+#### Choosing the maximum number of segments {#exercise:lineDetector}
 
-    TODO: While varying the maximal number of segments record a rosbag of the lane_pose with its publishing frequency in Hz. Plot the relationship between the number of segments on one axis and the frequenz on the other axis. 
+While running the exercise provided lane following, play with `/DUCKIEBOT_NAME/line_detector_node/segment_max_threshold`, and record different rosbags.
 
+Write a custom python script to analyse the frequency of the topic `/DUCKIEBOT_NAME/lane_filter_node/lane_pose`. Plot the relationship between `segment_max_threshold` on one axis and the frequency on the other axis (provide at least 4 points on the plot). Include a point with a very high `segment_max_threshold`, to virtually allow all segments to be computed.
 
+But frequency isn't the only relevant metric. Using one segment per color will give fast computation but very noisy and unstable estimation. Using the `rviz` tools that you launched before, estimate the stability of the estimation and find out the minimal number for `segment_max_threshold` that keeps a stable estimation.
+
+<end/>
 
 ### Task 2: Lane pose exercise
 
-As outlined in the introduction section, the lane_filter_node estimates the Duckiebot desired pose by means of recursive Bayes estimation. As a lever we can change the size of the belief/likelihood matrices. Therefore we are interested in analyzing the effect of various matrix sizes on the precision/standard deviation of the lane pose. For this task the parameter
+As outlined in the introduction section, the lane_filter_node estimates the Duckiebot desired pose by means of recursive Bayes estimation. As a lever we can change the size of the belief/likelihood matrices. Therefore we are interested in analyzing the effect of various matrix sizes on the precision/standard deviation of the lane pose. For this task the following parameters will be dynamically adjusted:
 
-- /BOT_NAME/lane_filter_node/matrix_delta_d
-- /BOT_NAME/lane_filter_node/matrix_delta_phi
+* `/BOT_NAME/lane_filter_node/matrix_delta_d`
+* `/BOT_NAME/lane_filter_node/matrix_delta_phi`
 
-can be dynamically adjusted. 
-    
-    TODO: While varying the size of the belief/likelihood matrix record a rosbag of the lane_pose with its publishing frequency in Hz. Plot the relationship between the size of the belief/likelihood matrix and the publishing frequency in Hz.
+#### Choosing the best matrix size {#exercise:laneFilter}
+
+  While varying the size of the belief/likelihood matrix record a rosbag of the lane_pose with its publishing frequency in Hz. Plot the relationship between the size of the belief/likelihood matrix and the publishing frequency in Hz.
+
+<end/>
 
 ### Task 3: English driver
 
