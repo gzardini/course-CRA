@@ -40,7 +40,7 @@ after adding these 3 topics, rviz should show the output as in the figure above.
 
 ### Change rosparams 
 
-open the same terminal as rviz. the following functions will be useful to change the dynamic parameters: 
+Open the same terminal as rviz. the following functions will be useful to change the dynamic parameters: 
 
 1) Listing the parameters:
 
