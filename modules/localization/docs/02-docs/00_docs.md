@@ -30,6 +30,45 @@ The line detector node is responsible for detecting lines in the field of view o
 
 * Segment list (type: SegmentList.msg) is an array which saves all segments (type: Segment.msg) found in the image. A segment consists of colour (red, yellow, white) and 2D vector (startpoint, endpoint).
 
+### Relevant part of the code
+
+We won't go to much into the details of the code, but the principal is there:
+
+Snippet of the main function:
+
+    def processImage_(self, image_msg):
+        ...
+        white = self.detector_used.detectLines('white')
+        yellow = self.detector_used.detectLines('yellow')
+        red = self.detector_used.detectLines('red')
+        ...max] = self.filter.getEstimate()
+    ...
+
+Snippet of the detectLines function:
+
+    class LineDetectorHSV(dtu.Configurable, LineDetectorInterface): 
+        ...
+        def detectLines(self, color):
+            with dtu.timeit_clock('_colorFilter'):
+                bw, edge_color = self._colorFilter(color)
+            with dtu.timeit_clock('_HoughLine'):
+                lines = self._HoughLine(edge_color)
+            with dtu.timeit_clock('_findNormal'):
+                centers, normals = self._findNormal(bw, lines)
+            return Detections(lines=lines, normals=normals, area=bw, centers=centers)
+        ...
+
+As you can see, the code first finds the colors on the image, then uses a Hough line detector from openCV, and extract the normals to the detected lines. Most of the work is in the Hough detector. Find the file [here](https://github.com/duckietown/dt-core/blob/daffy/packages/line_detector/include/line_detector/line_detector1.py) if you want to read more.
+
+### The focus of the exercise
+
+Over all the parameters we could choose to play with here, we decided to focus on the number of segments that this node will output to the next one:
+
+* If it gives too few segments, the localization will be imprecise but quick
+* If it gives too many segments, the localization will be on average more accurate, but also slower to compute
+
+Thus there is a `segment_max_threshold` parameter that allows the user to limit the number of segments that are sent, to play on this trade-off. Exercise [](#exercise:lineDetector) will have you play with it.
+
 ## Lane filter node
 
 ### Role of the node
@@ -61,11 +100,13 @@ From the belief, we then extract the pose d and angle phi with the highest proba
 
 ### Histogram filter
 
-Each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the horizontal distance from the white/yellow segment to the desired position (middle point between right white lane and yellow lane) is calculated. The same is done for the angle phi.
+Each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the corresponding (d, phi) tuple is extracted from geometric knowledge of the lane.
 
-Each segment's extracted tuple (d and phi) casts a vote in the measurement likelihood histogram matrix. This matrix can be then displayed as an image stream.
+Each segment's extracted tuple (d, phi) casts a vote in the measurement likelihood histogram matrix. This matrix can be then displayed as an image stream.
 
 The hope is that the majority of segments will vote to the same area of the histogram. With this matrix, the belief matrix is updated.
+
+### Snippets of relevant code
 
 Snippet of the the generation of votes for the histogram filter
 
