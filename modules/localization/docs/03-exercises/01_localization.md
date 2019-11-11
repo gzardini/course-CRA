@@ -26,7 +26,7 @@ For this task the parameter `/DUCKIEBOT_NAME/line_detector_node/segment_max_thre
 
 #### Choosing the maximum number of segments {#exercise:lineDetector}
 
-While running the exercise provided lane following, play with `/DUCKIEBOT_NAME/line_detector_node/segment_max_threshold`, and record different rosbags (One for each value of `segment_max_threshold`).
+While running the exercise provided lane following, play with `/DUCKIEBOT_NAME/line_detector_node/segment_max_threshold`, and record different rosbags (One for each value of `segment_max_threshold`). You should know how to do that from [](+duckietown-robotics-development#ros-logs).
 
 Write a custom python script to analyse the frequency of the topic `/DUCKIEBOT_NAME/lane_filter_node/lane_pose` for each bag. Plot the relationship between `segment_max_threshold` on one axis and the mean and standard deviation of the lane_pose frequency on the other axis (provide at least 4 points on the plot). Include a point with a very high `segment_max_threshold`, to virtually allow all segments to be computed.
 
