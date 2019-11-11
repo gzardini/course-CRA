@@ -184,9 +184,9 @@ For this task the parameter `/DUCKIEBOT_NAME/line_detector_node/segment_max_thre
 
 #### Choosing the maximum number of segments {#exercise:lineDetector}
 
-While running the exercise provided lane following, play with `/DUCKIEBOT_NAME/line_detector_node/segment_max_threshold`, and record different rosbags.
+While running the exercise provided lane following, play with `/DUCKIEBOT_NAME/line_detector_node/segment_max_threshold`, and record different rosbags (One for each value of `segment_max_threshold`).
 
-Write a custom python script to analyse the frequency of the topic `/DUCKIEBOT_NAME/lane_filter_node/lane_pose`. Plot the relationship between `segment_max_threshold` on one axis and the frequency on the other axis (provide at least 4 points on the plot). Include a point with a very high `segment_max_threshold`, to virtually allow all segments to be computed.
+Write a custom python script to analyse the frequency of the topic `/DUCKIEBOT_NAME/lane_filter_node/lane_pose` for each bag. Plot the relationship between `segment_max_threshold` on one axis and the frequency on the other axis (provide at least 4 points on the plot). Include a point with a very high `segment_max_threshold`, to virtually allow all segments to be computed.
 
 But frequency isn't the only relevant metric. Using one segment per color will give fast computation but very noisy and unstable estimation. Using the `rviz` tools that you launched before, estimate the stability of the estimation and find out the minimal number for `segment_max_threshold` that keeps a stable estimation.
 
@@ -194,14 +194,15 @@ But frequency isn't the only relevant metric. Using one segment per color will g
 
 ### Task 2: Lane pose exercise
 
-As outlined in the introduction section, the lane_filter_node estimates the Duckiebot desired pose by means of recursive Bayes estimation. As a lever we can change the size of the belief/likelihood matrices. Therefore we are interested in analyzing the effect of various matrix sizes on the precision/standard deviation of the lane pose. For this task the following parameters will be dynamically adjusted:
+As outlined in the introduction section, the lane_filter_node estimates the Duckiebot desired pose by means of recursive Bayes estimation. As a lever we can change the size of the belief/likelihood matrices. Therefore we are interested in analyzing the effect of various matrix sizes on the precision/standard deviation of the lane pose. For this task the following parameter will be dynamically adjusted:
 
-* `/BOT_NAME/lane_filter_node/matrix_delta_d`
-* `/BOT_NAME/lane_filter_node/matrix_delta_phi`
+* `/BOT_NAME/lane_filter_node/matrix_rescale`
 
 #### Choosing the best matrix size {#exercise:laneFilter}
 
-  While varying the size of the belief/likelihood matrix record a rosbag of the lane_pose with its publishing frequency in Hz. Plot the relationship between the size of the belief/likelihood matrix and the publishing frequency in Hz.
+While running the exercise provided lane following, play with `matrix_rescale`, and record different rosbags (One for each value of `matrix_rescale`).
+
+Write a custom python script to analyse the frequency of the topic `/DUCKIEBOT_NAME/lane_filter_node/lane_pose` for each bag (should be the same as last exercise). Plot the relationship between `matrix_rescale` on one axis and the frequency on the other axis (provide at least 4 points on the plot).
 
 <end/>
 
