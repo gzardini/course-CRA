@@ -46,6 +46,8 @@ While running the exercise provided lane following, play with `matrix_mesh_size`
 
 Write a custom python script to analyse the frequency of the topic `/DUCKIEBOT_NAME/lane_filter_node/lane_pose` for each bag (should be the same as last exercise). Plot the relationship between `matrix_mesh_size` on one axis and the the mean and standard deviation of the frequency of the `lane_pose` topic on the other axis (provide at least 4 points on the plot).
 
+Warning: sometimes, when changing the parameters dynamically errors might occur, since the matrix size might be changing during computation of the segments.
+
 <end/>
 
 ## Task 3: English driver
