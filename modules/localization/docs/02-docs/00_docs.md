@@ -2,7 +2,7 @@
 
 Excerpt: Understand the components of the localization pipeline: from image to lane pose estimation.
 
-The goal of this exercise is to familiarize us with the pipeline that extract lane localization from the image stream. This is the base of the lane following demo.
+The goal of this material is to familiarize us with the pipeline that extract lane localization from the image stream. This is the base of the lane following demo.
 
 ## Overview of the pipeline
 
@@ -61,7 +61,11 @@ From the belief, we then extract the pose d and angle phi with the highest proba
 
 ### Histogram filter
 
-Each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the horizontal distance from the white/yellow segment to the desired position (middle point between right white lane and yellow lane) is calculated. The same is done for the angle phi. For all the segments a histogram is calculated which can be then display under as an image stream.
+Each 2d white and yellow segments are projected onto the Duckiebots reference frame. Then the horizontal distance from the white/yellow segment to the desired position (middle point between right white lane and yellow lane) is calculated. The same is done for the angle phi.
+
+Each segment's extracted tuple (d and phi) casts a vote in the measurement likelihood histogram matrix. This matrix can be then displayed as an image stream.
+
+The hope is that the majority of segments will vote to the same area of the histogram. With this matrix, the belief matrix is updated.
 
 Snippet of the the generation of votes for the histogram filter
 
