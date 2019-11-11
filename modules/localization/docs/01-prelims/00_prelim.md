@@ -4,6 +4,15 @@ Excerpt: Instructions on how to setup your workflow for the exercise
 
 ## Required steps
 
+### Run the exercise 
+
+Run the exercise container:
+
+    laptop $ docker -H ![DUCKIEBOT_NAME].local run --name lane_following_cra2 --net host -v /data:/data duckietown/lane-following-cra2:daffy
+
+This container runs the lane following demo from dt-core. Additionaly it includes additional parameters which are important for this exercise.
+
+
 ### Run Rviz
 
 Rviz (ROS visualization) is a 3D visualizer for displaying sensor data and state information from ROS. More on information can be found here: http://wiki.ros.org/rviz
@@ -33,7 +42,7 @@ after adding these 3 topics, rviz should show the output as in the figure above.
 
 ### Change rosparams 
 
-open the same terminal as rviz. the following functions will be useful to change the dynamic parameters: 
+Open the same terminal as rviz. the following functions will be useful to change the dynamic parameters: 
 
 1) Listing the parameters:
 
@@ -46,3 +55,5 @@ open the same terminal as rviz. the following functions will be useful to change
 3) Setting the parameters:
 
     container $ rosparam set parameter_name value
+
+
