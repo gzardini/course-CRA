@@ -2,7 +2,7 @@
 
 Excerpt: Understand the components of the localization pipeline: from image to lane pose estimation.
 
-The goal of this material is to familiarize us with the pipeline that extracts lane localization from the image stream. This is the base of the Lane Following demo.
+The goal of this material is to get familiar with the pipeline that extracts lane localization from the image stream. This is the base of the Lane Following demo.
 
 
 <div figure-id="fig:goal_pipeline.png">
@@ -27,7 +27,7 @@ Determining its own position in the lane is essential for any Duckiebot to drive
 
 ### Role of the node
 
-The line detector node is responsible for detecting lines in the field of view of the Duckiebot. As the color of the lines provide localization information, we are also interested in clustering them into three different colors: red, white and yellow.
+The line detector node is responsible for detecting lines in the field of view of the Duckiebot. As the color of the lines provides localization information, we are also interested in clustering them into three different colors: red, white and yellow.
 
 ### ROS interfacing of the node
 
@@ -41,7 +41,7 @@ The line detector node publishes:
 
 ### Relevant part of the code
 
-We won't go to much into the details of the code, but the most important bits are here:
+We won't go too much into the details of the code, but the most important bits are here:
 
 Snippet of the main function:
 
