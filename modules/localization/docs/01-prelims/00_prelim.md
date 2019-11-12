@@ -10,22 +10,30 @@ Run the exercise container:
 
     laptop $ docker -H ![DUCKIEBOT_NAME].local run --name lane_following_cra2 --net host -v /data:/data duckietown/lane-following-cra2:daffy
 
-This container runs the lane following demo from dt-core. Additionaly it includes additional parameters which are important for this exercise.
+This container runs an extended version of the lane following demo from `dt-core`. It includes additional parameters which are important for this exercise.
 
 
 ### Run rviz
 
 `rviz` (ROS visualization) is a 3D visualizer for displaying sensor data and state information from ROS. More on information can be found in the official [ROS wiki](http://wiki.ros.org/rviz)
 
-For this exercise `rviz` will be helpful to display sensor messages from the Duckiebot. By selecting the appropriate topic we can output desired information.
+For this exercise `rviz` will be helpful for displaying sensor messages from the Duckiebot. By selecting the appropriate topic we can output desired information.
 
 <figure>
 <img style="width:30em" src="images/rosviz_screenshot.png"/>
 </figure>
 
+First, make sure that the your display can be accessed from a container. Run:
+
+    laptop $ xhost +local:root
+    
+Note: When you are done with the exercise, you should run the reverse command in order to secure your screen access again:
+
+    laptop $ xhost -local:root
+
 To start `rviz` run the following container:
 
-    laptop $ docker run -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" duckietown/rviz-cra2:daffy-amd64 /bin/bash
+    laptop $ docker run -it --net=host -e VEHICLE_NAME=![DUCKIEBOT_HOSTNAME] --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" duckietown/rviz-cra2:daffy-amd64 /bin/bash
 
 then:
 
