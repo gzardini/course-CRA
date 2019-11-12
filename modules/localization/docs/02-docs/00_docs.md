@@ -81,7 +81,7 @@ Over all the parameters we could choose to play with here, we decided to focus o
 * If it gives too few segments, the localization will be imprecise but quick
 * If it gives too many segments, the localization will be on average more accurate, but also slower to compute
 
-There is a `segment_max_threshold` parameter that allows the user to limit the number of segments that are sent which allows you to explore this trade-off. Exercise [](#exercise:lineDetector) will be the opportunity to play with it.
+There is a `segment_max_threshold` parameter that allows the user to limit the number of segments that are sent. The parameter limits the maximum number of segments for each of the colors individually. Setting it for example to 10 will yield an output of 10 yellow, 10 white and 10 red segments. Exercise [](#exercise:lineDetector) will give you the opportunity to play with it and see the effects of the trade-off.
 
 ## Lane filter node
 

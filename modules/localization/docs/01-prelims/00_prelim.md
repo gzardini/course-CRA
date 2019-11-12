@@ -23,7 +23,7 @@ For this exercise `rviz` will be helpful for displaying sensor messages from the
 <img style="width:30em" src="images/rosviz_screenshot.png"/>
 </figure>
 
-First, make sure that the your display can be accessed from a container. Run:
+First, make sure that your display can be accessed from a container. Run:
 
     laptop $ xhost +local:root
     
