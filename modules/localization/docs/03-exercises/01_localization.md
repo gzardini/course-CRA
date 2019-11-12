@@ -28,7 +28,7 @@ For this task the parameter `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_t
 
 While running the exercise-provided lane following, play with `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_threshold`, and record different ROS bags (one for each value of `segment_max_threshold`). You should know how to do that from [](+duckietown-robotics-development#ros-logs).
 
-Write a custom Python script to analyse the frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag. Plot the relationship between `segment_max_threshold` on one axis and the mean and standard deviation of the lane_pose frequency on the other axis. Provide at least 4 points on the plot. Include a point with a very high `segment_max_threshold` to virtually allow all segments to be computed.
+Write a custom Python script to analyze the frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag. Plot the relationship between `segment_max_threshold` on one axis and the mean and standard deviation of the lane_pose frequency on the other axis. Provide at least 4 points on the plot. Include a point with a very high `segment_max_threshold` to virtually allow all segments to be computed.
 
 Frequency isn't the only relevant metric. Using one segment per color will give fast computation but very noisy and unstable estimation. Using the `rviz` tool that you launched before, estimate the stability of the estimation and find out the minimal number for `segment_max_threshold` that keeps a stable estimation.
 
@@ -44,7 +44,7 @@ For this task the parameter `/![DUCKIEBOT_NAME]/lane_filter_node/matrix_mesh_siz
 
 While running the exercise-provided lane following, play with `matrix_mesh_size`, and record different ROS bags (one for each value of `matrix_mesh_size`).
 
-Write a custom Python script to analyse the frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag (should be the same as last exercise). Plot the relationship between `matrix_mesh_size` on one axis and the the mean and standard deviation of the frequency of the `lane_pose` topic on the other axis. Provide at least 4 points on the plot.
+Write a custom Python script to analyze the frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag (should be the same as last exercise). Plot the relationship between `matrix_mesh_size` on one axis and the the mean and standard deviation of the frequency of the `lane_pose` topic on the other axis. Provide at least 4 points on the plot.
 
 Warning: sometimes, when dynamically changing the parameters, errors might occur since the matrix size might be changing during computation of the segments. In the occurrence of such a problem, you can restart the node.
 
