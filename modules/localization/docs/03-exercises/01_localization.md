@@ -46,7 +46,7 @@ While running the exercise-provided lane following, play with `matrix_mesh_size`
 
 Write a custom Python script to analyze the frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag (should be the same as last exercise). Plot the relationship between `matrix_mesh_size` on one axis and the the mean and standard deviation of the frequency of the `lane_pose` topic on the other axis. Provide at least 4 points on the plot.
 
-Warning: sometimes, when dynamically changing the parameters, errors might occur since the matrix size might be changing during computation of the segments. In the occurrence of such a problem, you can restart the node.
+Warning: sometimes, when dynamically changing the parameters, errors might occur since the matrix size might be changing during computation of the segments. In the occurrence of such a problem, you can restart the node or set the previous value of the mesh and then retry.
 
 <end/>
 
@@ -56,6 +56,6 @@ One of our brave Duckiebots wanted to make a visit to a fellow Duckiebot at the 
 
 #### Driving the English style {#exercise:englishDriver}
 
-The task is to make the Duckiebot drive on the left side of the road. An appropriate parameter in the [provided code snippet](#histogramfilter) is sufficient to complete this task.
+The task is to make the Duckiebot drive on the left side of the road. The parameter `/![DUCKIEBOT_NAME]/lane_filter_node/lane_offset` and the provided snippet  [provided code snippet](#histogramfilter) is sufficient to complete this task. Coding is not necessary for this exercise.
 
 <end/>
