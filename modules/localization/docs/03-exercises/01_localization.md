@@ -26,7 +26,7 @@ For this task the parameter `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_t
 
 #### Choosing the best number of segments (frequency) {#exercise:lineDetector}
 
-Put the Duckiebot in the city and let it drive one whole loop with the exercise-provided lane following. For every whole loop use a different parameter `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_threshold` and record a ROS bag of `lane_pose` for each value of `segment_max_threshold`. You should know how to do that from [](+duckietown-robotics-development#ros-logs).
+Put the Duckiebot in the city and let it drive one whole loop with the exercise-provided lane following. For every whole loop use a different parameter `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_threshold` and record a rosbag of `lane_pose` for each value of `segment_max_threshold`. You should know how to do that from [](+duckietown-robotics-development#ros-logs).
 
 Write a custom Python script to analyze the publishing_frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag. Plot the relationship between `segment_max_threshold` on one axis and the mean and standard deviation of the lane_pose publishing frequency on the other axis. Provide at least 4 points on the plot. Include a point with a very high `segment_max_threshold` to virtually allow all segments to be computed.
 
@@ -36,7 +36,7 @@ Frequency isn't the only relevant metric. Using one segment per color will give 
 
 #### Choosing the best number of segments (stability) {#exercise:lineDetector2}
 
-Create a graph, ploting on the y-axis $(d, \phi)$ against time on the x-axis for each of the loops from the previously recorded ROS bags.
+Create a graph, ploting on the y-axis $(d, \phi)$ against time on the x-axis for each of the loops from the previously recorded rosbags.
 
 <end/>
 
@@ -48,7 +48,7 @@ For this task the parameter `/![DUCKIEBOT_NAME]/lane_filter_node/matrix_mesh_siz
 
 #### Choosing the best matrix size {#exercise:laneFilter}
 
-While running the exercise-provided lane following, play with `matrix_mesh_size`, and record different ROS bags for the topic lane_pose (one for each value of `matrix_mesh_size`).
+While running the exercise-provided lane following, play with `matrix_mesh_size`, and record different rosbags for the topic lane_pose (one for each value of `matrix_mesh_size`).
 
 Write a custom Python script to analyze the frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag (should be the same as last exercise). Plot the relationship between `matrix_mesh_size` on one axis and the the mean and standard deviation of the frequency of the `lane_pose` topic on the other axis. Provide at least 4 points on the plot.
 
