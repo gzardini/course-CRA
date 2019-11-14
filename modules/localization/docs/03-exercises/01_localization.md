@@ -36,7 +36,7 @@ Frequency isn't the only relevant metric. Using one segment per color will give 
 
 #### Choosing the best number of segments (stability) {#exercise:lineDetector2}
 
-Create a graph, ploting on the y-axis $(d, \phi)$ against time on the x-axis for each of the loops from the previously record ROS bags.
+Create a graph, ploting on the y-axis $(d, \phi)$ against time on the x-axis for each of the loops from the previously recorded ROS bags.
 
 <end/>
 
