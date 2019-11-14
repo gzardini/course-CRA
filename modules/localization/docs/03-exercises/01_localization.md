@@ -26,7 +26,7 @@ For this task the parameter `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_t
 
 #### Choosing the best number of segments (frequency) {#exercise:lineDetector}
 
-Put the Duckiebot in the city and let it drive one whole loop with the exercise-provided lane following. For every whole loop use a different parameters of `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_threshold` and record a ROS bag of `lane_pose` for each value of `segment_max_threshold`. You should know how to do that from [](+duckietown-robotics-development#ros-logs).
+Put the Duckiebot in the city and let it drive one whole loop with the exercise-provided lane following. For every whole loop use a different parameter `/![DUCKIEBOT_NAME]/line_detector_node/segment_max_threshold` and record a ROS bag of `lane_pose` for each value of `segment_max_threshold`. You should know how to do that from [](+duckietown-robotics-development#ros-logs).
 
 Write a custom Python script to analyze the publishing_frequency of the topic `/![DUCKIEBOT_NAME]/lane_filter_node/lane_pose` for each bag. Plot the relationship between `segment_max_threshold` on one axis and the mean and standard deviation of the lane_pose publishing frequency on the other axis. Provide at least 4 points on the plot. Include a point with a very high `segment_max_threshold` to virtually allow all segments to be computed.
 
