@@ -286,7 +286,7 @@ Now discretize the above system as before and extend the state space matrices an
 
 Run it again with
 
-laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=2
+    laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=2
 
 How does your controller perform now?
 
