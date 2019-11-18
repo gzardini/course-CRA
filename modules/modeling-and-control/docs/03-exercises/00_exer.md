@@ -31,21 +31,24 @@ with it as you have learned in [](#cra-mac-lm).
 
 ## PI control {#cra-mac-pi-control}
 ### Modeling
-As you have seen in [](#cra-mac-lm), you can derive a continuous-time state-space model of a Duckiebot with the states $\vec{x} = [d \enspace \varphi]^T$,
-input $u = \omega$ and output $y$ where the states are defined as in Fig. [](#fig:duckiebot_topview).
+As you have learned in class, using Fig. [](#fig:duckiebot_topview) you can derive a state-space model of a Duckiebot. Specifically, considering the state $\vec{x} = \begin{bmatrix} d& \varphi \end{bmatrix}^\intercal$, one can write the nonlinear model:
+
+$\dot{\vec{x}} = \begin{bmatrix} v \cdot \sin(\varphi) \\ \omega \end{bmatrix}$.
+
+The input of the system is $u = \omega$ and the output is $y$.
 
 <figure>
     <img figure-id="fig:duckiebot_topview" figure-caption="Lane Pose of the Duckiebot." style="width: 75%; height: auto;" src="duckiebot_topview.pdf"/>
 </figure>
 
 
-After linearization around the operation point $\vec{x} = [0 \enspace 0]^T$, the model looks as follows:
+After linearization around the operation point $\vec{x} = \begin{bmatrix}0 & 0\end{bmatrix}^\intercal$ (if you do not remember model linearization, have a look at (TODO:put reference), the model looks as follows:
 
-$\dot{\vec{x}} = A\vec{x} + Bu = \begin{bmatrix} 0 & v \\ 0 & 0 \end{bmatrix}\vec{x} + \begin{bmatrix} 0 \\ 1 \end{bmatrix}u$
+$\dot{\vec{x}} = A\vec{x} + Bu = \begin{bmatrix} 0 & v \\ 0 & 0 \end{bmatrix}\vec{x} + \begin{bmatrix} 0 \\ 1 \end{bmatrix}u$,
 
-$\vec{y} = C\vec{x} =[6 \enspace 1]\vec{x}$
+$\vec{y} = C\vec{x} =\begin{bmatrix}6 & 1\end{bmatrix}\vec{x}$.
 
-With transfer function $P(s) = \frac{s + 6v}{s^2}$.
+The transfer function of the system is $P(s) = \frac{s + 6v}{s^2}$.
 
 Let $e = r - y$. A PI-controller for this system looks like
 
