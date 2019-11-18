@@ -31,31 +31,35 @@ with it as you have learned in [](#cra-mac-lm).
 
 ## PI control {#cra-mac-pi-control}
 ### Modeling
-As you have seen in [](#cra-mac-lm), you can derive a continuous-time state-space model of a Duckiebot with the states $\vec{x} = [d \enspace \varphi]^T$,
-input $u = \omega$ and output $y$ where the states are defined as in Fig. [](#fig:duckiebot_topview).
 
-<figure>
-    <img figure-id="fig:duckiebot_topview" figure-caption="Lane Pose of the Duckiebot." style="width: 75%; height: auto;" src="duckiebot_topview.pdf"/>
-</figure>
+As you have learned, using Fig.  [](#fig:duckiebot_topview) one can derive a continuous-time nonlinear model for the Duckiebot. Considering the state $\vec{x}(t)=\begin{bmatrix} d& \varphi \end{bmatrix}^\intercal$, one can write
 
+$\dot{\vec{x}} = \begin{bmatrix} v\cdot \sin(\varphi) \\ \omega \end{bmatrix}.$	
 
-After linearization around the operation point $\vec{x} = [0 \enspace 0]^T$, the model looks as follows:
+After linearization around the operation point $\vec{x}_ {\text{e}}=\begin{bmatrix} 0&0 \end{bmatrix}^\intercal $ (if you do not remember linearization, have a look at TODO:add ref), one has 
 
-$\dot{\vec{x}} = A\vec{x} + Bu = \begin{bmatrix} 0 & v \\ 0 & 0 \end{bmatrix}\vec{x} + \begin{bmatrix} 0 \\ 1 \end{bmatrix}u$
+$\dot{x}(t)= \begin{bmatrix} 0&v \\ 0&0 \end{bmatrix}x(t) + \begin{bmatrix} 0 & 1 \end{bmatrix}u(t).$
 
-$\vec{y} = C\vec{x} =[6 \enspace 1]\vec{x}$
+Furthermore, you are provided the output model
 
-With transfer function $P(s) = \frac{s + 6v}{s^2}$.
+$y(t)=\begin{bmatrix} 6&1 \end{bmatrix}\vec{x}(t).$
 
-Let $e = r - y$. A PI-controller for this system looks like
+Using the linearized version of the model, you can compute the transfer function (if you do not remember how, have a look at TODO:add ref).
 
-$u(t) = k(e(t) + \frac{1}{T_I}\int_{0}^{t}e(\tau) d\tau) := k_P e(t) + k_I\int_{0}^{t}e(\tau) d\tau$
+$P(s)=\frac{s+6v}{s^2}.$
 
-in time domain and
+Consider the error $e(t)=r(t)-y(t)$. Using a PI-controller (if you do not remember what a PI-controller is, have a look at TODO: add ref), one can write
 
-$C(s) = k(1 + \frac{1}{T_Is}) := k_P + k_I\frac{1}{s}$
-in frequency domain, where
-$U(s) = C(s)E(s) = C(s)(R(s) - Y(s))$.
+$u(t) = k_\text{P}(e(t) + \frac{1}{T_I}\int_{0}^{t}e(\tau) d\tau) = k_P e(t) + k_\text{I}\int_{0}^{t}e(\tau) d\tau.$
+
+In frequency domain, this corresponds to 
+
+$U(s)=C(s)E(s)$,	
+
+with 
+
+$C(s)= k_\text{P}+\frac{k_\text{I}}{s}$.
+
 
 #### Find the gains {#exercise:find-gains}
 Using the above model of the Duckiebot and the structure for the PI controller, find the parameters for the proportional and integral gain of your PI-controller such that it is stable. You can follow the steps below to do this:\
