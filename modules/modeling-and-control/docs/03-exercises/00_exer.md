@@ -193,7 +193,7 @@ But is the solution that you found optimal and does it give us a guarantee on it
 Therefore, it would be useful to have a control algorithm which does not depend heavily on the given model and gives us guarantees on its stability.
 In the last two exercise parts, you will look at a different controller which will help us solve the above mentioned problems; namely a Linear-Quadratic-Regulator (LQR).
 
-## Linear Quadratic Regulator
+## Linear Quadratic Regulator (*Optional*)
 A linear quadratic regulator (LQR) is a a state feedback control approach which works by minimizing a cost function. This approach is especially suitable if we want to have some high-level tuning parameters where the cost can be traded off against the performance of the controller. Here, we typically refer to "cost" as the needed input $u(t)$ and "performance" as the reference tracking and robustness characteristics of the controller. 
 In addition, LQR control works well even when no precise model is available as it is often the case in practical applications. This makes it a suitable controller for real world applications. 
 
