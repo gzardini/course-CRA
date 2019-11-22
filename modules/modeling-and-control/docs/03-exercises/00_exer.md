@@ -116,21 +116,20 @@ Observe the behaviour again, what differences do you notice? Why is that? <br />
 ##### Assume a large sampling time
 In the last exercise you implemented a discrete time controller and saw how slight variations in the sampling time can have an impact on the performance of the Duckiebot. You now want to further explore how the sampling time impacts the performance of the controller by increasing it and observing the outcome. For the following, consider Euler forward as the discretization technique.
 The model of a Duckiebot only works on a specific range of consequent states $[d_{i,i+1},\varphi_{i,i+1}]$. If these values grow too abruptly, the camera loses sight of the lines and the estimation
-of the output $y$ is not possible any longer. By increasing $k_\text{s}$ in `controller-1.py`, check how much you can reduce the sampling rate
-until the system destabilizes. Notice that since your controller is discrete, you can only increase the sampling time $T$ in discrete steps $k_\text{s}$ where $T_\text{new} = k_\text{s}\cdot T$.
-This functionality is already implemented in the lane controller node for you. To reduce the sampling rate, the Duckiebot only handles every $k_\text{s}$-th measurement ($\#measurement \bmod k_\text{s} \equiv 0$), and drops all the other measurements.
+of the output $y$ is not anymore possible. By increasing $k_\text{s}$ in `controller-1.py`, check how much you can reduce the sampling rate before the system destabilizes. Notice that since your controller is discrete, you can only increase the sampling time $T$ in discrete steps $k_\text{s}$ where $T_\text{new} = k_\text{s}\cdot T$.
+This functionality is already implemented in the lane controller node for you. To reduce the sampling rate, the Duckiebot only handles every $k_\text{s}$-th measurement ($\text{\#measurements} \bmod k_\text{s} \equiv 0$), and drops all the other measurements.
 Adjust the parameter $k_\text{s}$ such that the Duckiebot becomes unstable. What is the approximate sampling time when the Duckiebot becomes unstable?  
 Again run your code with:
     
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
 
 After you have found a value for $k_\text{s}$ that destabilizes your Duckiebot, try to improve the robustness of your controller against the smaller sampling rate and make it
-stable again. There is different ways to do this. Explain how you did it and why.
+stable again. There are different ways to do this. Explain how you did it and why.
 
 <end/> 
  
 ### Latency of the estimate
-Until now, the delay which is present in the Duckiebot (the plant) has not been explicitly addressed. From the moment an image is recorded until the lane pose estimate is available, it takes roughly 85ms. This implies that you will never be able to act upon the exact state that your Duckiebot is in. In the following exercise you will examine how the Duckiebot behaves if this delay between image acquisition and pose estimation changes.
+Until now, the delay which is present in the Duckiebot (the plant) has not been explicitly addressed. From the moment an image is recorded until the lane pose estimate is available, it takes roughly 85ms. This implies that you will never be able to act upon the exact state that your Duckiebot is observed to be in. In the following exercise you will examine how the Duckiebot behaves if this delay between image acquisition and pose estimation changes.
 
 #### Increasing the delay {#exercise:delay}
 <br />
@@ -138,7 +137,7 @@ Until now, the delay which is present in the Duckiebot (the plant) has not been 
 ##### Stability - Theoretical
 As you have already seen in the previous tasks, the time delay of 85ms does not destabilize your system. By using your calculations from [](#cra-mac-pi-control), you are indeed able to identify a maximal time delay such that your system is still stable in theory. This can be done by having a look at the transfer function of a time-delayed system:
 $P_\text{d}(s) = e^{-sT_\text{d}} P(s)$
-An increase of $T_\text{d}$ leads to a shift of the phase in negative direction. Therefore, $T_\text{d}$ must not be larger than the phase margin of $L(s)$ (which was roughly $70^{\circ}$ in our case) to not destabilize the system. Calculate the maximal $T_\text{d}$ such that the system is still stable.
+An increase of $T_\text{d}$ leads to a shift of the phase in negative direction. Therefore, $T_\text{d}$ must not be larger than the phase margin of $L(s)$ (which was roughly $70^{\circ}$ in our case) to prevent destabilizing the system. Calculate the maximal $T_\text{d}$ such that the system is still stable.
 <br />
 
 ##### Stability - Practical
@@ -153,22 +152,22 @@ How big is the difference between the theoretical and the practical limit? <br /
 <end/>  
 
 ### Increase performance of your PI controller
-An integral part in the controller comes with a drawback in a real system: Due to the fact that the motors on a Duckiebot can only run up to a specific speed, you are not able to perform unbounded high inputs demanded by the controller. 
+The integral part in the controller comes with a drawback in a real system: Due to the fact that the motors on a Duckiebot can only run up to a specific speed, you are not able to perform unbounded high inputs demanded by the controller. 
 If the Duckiebot cannot execute the commands which the controller demands, the difference between the demanded input and the executed input will remain and therefore be added on top of the demanded input which is already too high to be executed.
 This leads us to a situation in which the integral term can become very large. If you now reach your desired equilibrium point, the integrator will still have a large value, causing the Duckiebot to overshoot. <br />
 But behold, there is a solution to this problem! It is called anti-windup filter and will be examined in the next exercise.   
 
 #### Effect of an Anti-Windup Filter {#exercise:anti-windup}
-In Fig. [](#fig:anti_reset_windup_ex), you can see a diagram of an anti-windup logic for a PI-controller. $k_\text{t}$ determines how fast the integral is reset and is usually chosen in the order of $k_\text{I}$.
+In [](#fig:anti_reset_windup_ex), you can see a diagram of an anti-windup logic for a PI-controller. $k_\text{t}$ determines how fast the integral is reset and is usually chosen in the order of $k_\text{I}$.
 
 <figure>
     <img figure-id="fig:anti_reset_windup_ex" figure-caption="A PI-controller with an anti-windup logic implemented, Feedback Systems from Aström and Murray, page 308." style="width: 75%; height: auto;" src="PI-with-anti-windup.png"/>
 </figure>
 
-Typically, the actuator saturation (i.e. when it reaches its physical limit) can be measured. In our case, however, as there is no feedback on the wheels commands that are being executed, we will make an assumption. You will simulate a saturation of the motors at a value of $u_\text{sat} = 2rad/s$. <br />
-Below you find a simple helper function that you can use to add an anti-windup to your existing PI controller. It takes an unbounded input and limits it to the mentioned saturation input value $u_\text{sat}$. Use it to extend your existing PI controller with an anti-windup scheme. <br />
+Typically, the actuator saturation (i.e. when it reaches its physical limit) can be measured. In our case, however, as there is no feedback on the wheels commands that are being executed, we will make an assumption. You will simulate a saturation of the motors at a value of $u_\text{sat} = 2\text{rad/s}$. <br />
+Below you can find a simple helper function that you can use to add an anti-windup to your existing PI controller. It takes an unbounded input and limits it to the mentioned saturation input value $u_\text{sat}$. Use it to extend your existing PI controller with an anti-windup scheme. <br />
 Furthermore you are given the parameter $k_\text{t}$ in the file `controller-1.py`. It shall be used as a gain on the difference between the input $u$ and the saturation input value $u_\text{sat}$ which is fed back to the integrator part of the controller as it is shown in Fig. [](#fig:anti_reset_windup_ex).
-As a first step, test the performance of the Duckiebot with the anti-windup term turned off (i.e.m $k_\text{t} = 0$). You will see that the performance is poor after curves. If you increase the integral gain $k_\text{I}$, you are even able to destabilize the system!
+As a first step, test the performance of the Duckiebot with the anti-windup term turned off (i.e. $k_\text{t} = 0$). You will see that the performance is poor after curves. If you increase the integral gain $k_\text{I}$, you are even able to destabilize the system!
 In order to avoid destabilization and improve the performance of the system, set $k_\text{t}$ to roughly the same value as $k_\text{I}$. Note the difference!
 You can run your code as before with:
 
@@ -195,7 +194,7 @@ Therefore, it would be useful to have a control algorithm which does not depend 
 In the last two exercise parts, you will look at a different controller which will help us solve the above mentioned problems; namely a Linear-Quadratic-Regulator (LQR).
 
 ## Linear Quadratic Regulator (*Optional*)
-A linear quadratic regulator (LQR) is a a state feedback control approach which works by minimizing a cost function. This approach is especially suitable if we want to have some high-level tuning parameters where the cost can be traded off against the performance of the controller. Here, we typically refer to "cost" as the needed input $u(t)$ and "performance" as the reference tracking and robustness characteristics of the controller. 
+A Linear Quadratic Regulator (LQR) is a a state feedback control approach which works by minimizing a cost function. This approach is especially suitable if we want to have some high-level tuning parameters where the cost can be traded off against the performance of the controller. Here, we typically refer to "cost" as the needed input $u(t)$ and "performance" as the reference tracking and robustness characteristics of the controller. 
 In addition, LQR control works well even when no precise model is available as it is often the case in practical applications. This makes it a suitable controller for real world applications. 
 
 
@@ -220,15 +219,15 @@ Because of limited computation resources, a steady-state (or _infinite horizon_)
 
 $\Phi = A^T\Phi A - (A^T \Phi B)(R+B^T \Phi B)^{-1}(B^T \Phi A)+Q$
 
-To solve this equation use the Python control library (see [python control library documentation](https://python-control.readthedocs.io/en/0.8.2/)). <br />
+To solve this equation use the Python control library (see [Python control library documentation](https://python-control.readthedocs.io/en/0.8.2/)). <br />
 <br />
 
 ##### A  word on weighting
-In general, it is a good idea to choose the weighting matrices to be diagonal, as this gives you the freedom of weighting every state individually. Also you should normalize your $R$ and $Q$ Matrices. Choose the corresponding weights and tune them until you achieve a satisfying behaviour on the track.
+In general, it is a good idea to choose the weighting matrices to be diagonal, as this gives you the freedom of weighting every state individually. Also you should normalize your $R$ and $Q$ matrices. Choose the corresponding weights and tune them until you achieve a satisfying behaviour on the track.
 To find suitable parameters for the weighting matrices, keep in mind that we are finding our control input by minimizing a cost function of the form 
 
 \begin{equation}
-u_{LQR}(t) = \underset{u(t)}{\text{argmin}} \phantom{0} J_{LQR}(u(t)) = \underset{u(t)}{\text{argmin}} \phantom{0} \int_{0}^{\infty} u^TRu + x^TQx + 2x^TNu dt
+u_{LQR}(t) = \underset{u(t)}{\text{argmin}} \phantom{0} J_{LQR}(u(t)) = \underset{u(t)}{\text{argmin}} \phantom{0} \int_{0}^{\infty} u^TRu + x^TQx + 2x^TNu ~ dt
 \end{equation}
 
 So intuitively, one can note that a low weight on a certain state means that it has less of an impact when trying to minimize the overall cost function. A high weight means that we want to minimize this state more in order to minimize the overall function. <br />
