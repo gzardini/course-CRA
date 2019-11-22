@@ -78,7 +78,7 @@ In the following exercise, you are asked to implement the designed PI controller
 There is a template for this and the following exercises of this chapter. It is a Docker image of the `dt-core` with an additional folder called `CRA3`. This folder contains two controller templates, `controller-1.py` and `controller-2.py`. The first one will be used for the exercises with the PI controller and the other one for the implementation of the LQR(I) which you will do from exercise [](#exercise:LQR) onwards.
 Start by pulling the image and running the container with the following command:
 
-    laptop $ docker -H ![DUCKIEBOT_NAME].local run --name dt-core-CRA3 -v /data:/data --privileged --network=host -it hosnerm/dt-core:CRA3-template /bin/bash
+    laptop $ docker -H ![DUCKIEBOT_NAME].local run --name dt-core-CRA3 -v /data:/data --privileged --network=host -it duckietown/dt-core:CRA3-template /bin/bash
     
 Note: in case you have to stop the container at any point (in case you take a break or the Duckiebot decides to crash and therefore makes you take a break), start the container again (for example by using the portainer interface (`http://hostname.local:9000/#/containers`)) and jump into it using the following command:
     
