@@ -22,8 +22,7 @@ In this exercise you will learn how to implement different control algorithms on
 In the following exercise you will be asked to implement two different kinds of control algorithms to control
 the Duckiebot. In a first step, you will write a PI controller and gain some intuition on
 different factors that are important for the controller design such as the discretization method, the sampling time, and the latency of the estimate. You will also learn what an anti-windup scheme is and how it can be useful on a real robot. <br />
-In a second step, you will implement a Linear Quadratic Regulator, or LQR for short. You then augment it by an integral part, making it a LQRI. This approach represents a more high-level approach to the
-control problem. You will see how it is less intuitive but at the same time it brings certain advantages as you will see in the exercise.
+In a second step, you will implement a Linear Quadratic Regulator, or LQR for short. You then augment it by an integral part, making it a LQRI. This is a more high-level approach to the control problem. You will see how it is less intuitive but at the same time it brings certain advantages as you will see in the exercise.
 
 ## PI control {#cra-mac-pi-control}
 
