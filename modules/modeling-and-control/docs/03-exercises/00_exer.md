@@ -40,13 +40,15 @@ Furthermore, you are provided the output model
 
 $y(t)=\begin{bmatrix} 6&1 \end{bmatrix}\vec{x}(t).$
 
-Using the linearized version of the model, you can compute the transfer function of the system (if you do not remember how, have a look at chapter 8 in [](#bib:Astr))
+Using the linearized version of the model, you can compute the transfer function of the system:
 
 $P(s)=\frac{s+6v}{s^2}$.
 
+If you do not remember how, have a look at chapter 8 in [](#bib:Astr).
+
 Consider now the error to be $e(t)=r(t)-y(t)$. Using a PI-controller (if you do not remember what a PI-controller is, have a look at chapter 10 in [](#bib:Astr)), one can write
 
-$u(t) = k_\text{P}(e(t) + \frac{1}{T_I}\int_{0}^{t}e(\tau) d\tau) = k_\text{P} e(t) + k_\text{I}\int_{0}^{t}e(\tau) d\tau$
+$u(t) = k_\text{P}\left(e(t) + \frac{1}{T_I}\int_{0}^{t}e(\tau) d\tau\right) = k_\text{P} e(t) + k_\text{I}\int_{0}^{t}e(\tau) d\tau$
 
 In frequency domain, this corresponds to 
 
@@ -59,8 +61,8 @@ $C(s)= k_\text{P}+\frac{k_\text{I}}{s}$
 #### Find the gains {#exercise:find-gains}
 Using the above defined model of the Duckiebot and the structure for a PI controller, find the parameters for the proportional and integral gain of your PI controller such that the closed-loop system is stable. You can follow the steps below to do this: <br />
 
-- For the Duckiebot you are assuming a constant linear velocity $v = 0.22 $ $ m/s$. Given this velocity and using a tool of your choice (for example the [Duckiebot bodeplot tool](https://julien.li/submit/bodeplot/)), find a proportional gain $k_\text{P}$ such that $L(s) = P(s)C(s)$ has a crossover frequency of
-approximately $4.2$ $ rad/s$. 
+- For the Duckiebot you are assuming a constant linear velocity $v = 0.22 \text{m/s}$. Given this velocity and using a tool of your choice (for example the [Duckiebot bodeplot tool](https://julien.li/submit/bodeplot/)), find a proportional gain $k_\text{P}$ such that $L(s) = P(s)C(s)$ has a crossover frequency of
+approximately $4.2 \text{rad/s}$. 
 
 - Next, find an integral gain $k_\text{I}$ such that $L(s)$ has a gain margin of approximately $-25.6dB \approx 0.053$.
 (this refers to a gain of the controller which is about 19 times higher than the critical minimal gain that is needed for stability).
