@@ -28,14 +28,14 @@ In a second step, you will implement a Linear Quadratic Regulator, or LQR for sh
 
 ### Modeling
 As you have learned, using Fig. [](#fig:duckiebot_topview) one can derive a continuous-time nonlinear model for the Duckiebot. Considering the state $\vec{x}(t)=\begin{bmatrix} d& \varphi \end{bmatrix}^\intercal$, one can write
-$\dot{\vec{x}} = \begin{bmatrix} v\cdot \sin(\varphi) \\ \omega \end{bmatrix}$.
+$\dot{\vec{x}} = \begin{bmatrix} v\cdot \sin(\varphi) \\ \omega \end{bmatrix}$. Where $v$ is the linear velocity and $\omega$ the yaw rate of the Duckiebot.
 
 <figure>
     <img figure-id="fig:duckiebot_topview" figure-caption="Top view of the Duckiebot on a road with its two states." style="width: 75%; height: auto;" src="duckiebot_topview.pdf"/>
 </figure>
 
 After linearization around the operation point $\vec{x}_\text{e}=\begin{bmatrix} 0&0 \end{bmatrix}^\intercal$ (if you do not remember linearization, have a look at chapter 5.4 in [](#bib:Astr)), one has
-$\dot{x}(t)= \begin{bmatrix} 0&v \\ 0&0 \end{bmatrix}x(t) + \begin{bmatrix} 0 & 1 \end{bmatrix}u(t).$
+$\dot{x}(t)= \begin{bmatrix} 0&v \\ 0&0 \end{bmatrix}x(t) + \begin{bmatrix} 0 & 1 \end{bmatrix}u(t)$ where the input $u(t)$ is the desired yaw rate of the Duckiebot.
 Furthermore, you are provided the output model
 
 $y(t)=\begin{bmatrix} 6&1 \end{bmatrix}\vec{x}(t).$
@@ -50,6 +50,7 @@ Consider now the error to be $e(t)=r(t)-y(t)$. Using a PI-controller (if you do 
 
 $u(t) = k_\text{P}\left(e(t) + \frac{1}{T_I}\int_{0}^{t}e(\tau) d\tau\right) = k_\text{P} e(t) + k_\text{I}\int_{0}^{t}e(\tau) d\tau$
 
+with k_\text{P} being the proportional gain and k_\text{I} being the integral gain. <br />
 In frequency domain, this corresponds to
 
 $U(s)=C(s)E(s)$,    
@@ -57,6 +58,7 @@ $U(s)=C(s)E(s)$,
 with
 
 $C(s)= k_\text{P}+\frac{k_\text{I}}{s}$
+
 
 #### Find the gains {#exercise:find-gains}
 Using the above defined model of the Duckiebot and the structure for a PI controller, find the parameters for the proportional and integral gain of your PI controller such that the closed-loop system is stable. You can follow the steps below to do this: <br />
@@ -97,7 +99,7 @@ Now you are ready to implement a PI controller using different discretization me
 <br />
 
 ##### Assume constant sampling time
-In a first attempt, you can use an approximation for your sampling time. The Duckiebot typically updates its lane pose estimate, i.e. where the Duckiebot thinks it is placed within the lane, at around 12 Hz. If you assume this sampling rate to be constant, you can easily discretize the PI controller you designed. Implement your PI controller under the assumption of a constant sampling in the file `controller-1.py`. When discretizing the system, choose Euler forward as the discretization technique (if you do not remember how, have a look at chapter 2.3 in [](#bib:Zardini)).
+In a first attempt, you can use an approximation for your sampling time. The Duckiebot typically updates its lane pose estimate, i.e. where the Duckiebot thinks it is placed within the lane, at around 12 Hz. If you assume this sampling rate to be constant, you can discretize the PI controller you designed. Implement your PI controller under the assumption of a constant sampling in the file `controller-1.py`. When discretizing the system, choose Euler forward as the discretization technique (if you do not remember how, have a look at chapter 2.3 in [](#bib:Zardini)).
 You can run the controller you just designed by executing the following command:
 
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
@@ -136,7 +138,7 @@ Until now, the delay which is present in the Duckiebot (the plant) has not been 
 
 ##### Stability - Theoretical
 As you have already seen in the previous tasks, the time delay of 85ms does not destabilize your system. By using your calculations from [](#cra-mac-pi-control), you are indeed able to identify a maximal time delay such that your system is still stable in theory. This can be done by having a look at the transfer function of a time-delayed system:
-$P_\text{d}(s) = e^{-sT_\text{d}} P(s)$
+$P_\text{d}(s) = e^{-sT_\text{d}} P(s)$ with $T_\text{d}$ being the time delay.
 An increase of $T_\text{d}$ leads to a shift of the phase in negative direction. Therefore, $T_\text{d}$ must not be larger than the phase margin of $L(s)$ (which was roughly $70^{\circ}$ in our case) to prevent destabilizing the system. Calculate the maximal $T_\text{d}$ such that the system is still stable.
 <br />
 
@@ -173,7 +175,7 @@ You can run your code as before with:
 
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
 
-*Optional:* With different values of $k_P$ and $k_I$, one could improve the behaviour even more.
+*Optional:* With different values of $k_\text{P}$ and $k_\text{I}$, one could improve the behaviour even more.
 
 ##### Template for saturation function:
 ```python
@@ -203,7 +205,7 @@ As in the part above, you will start with the model of the Duckiebot. This time 
 $\dot{\vec{x}}=A\vec{x}+Bu=\begin{bmatrix}0 & v\\ 0 & 0\end{bmatrix}\vec{x}+\begin{bmatrix}0\\1\end{bmatrix}u$
 $\vec{y}=C\vec{x}=\begin{bmatrix}1 & 0\\ 0 & 1 \end{bmatrix}\vec{x}$
 With state vector $\vec{x}=\begin{bmatrix}d, & \varphi\end{bmatrix}^T$ and input $u=\omega$. Notice, that the matrix $C$ is an identity matrix, which means that the states are directly mapped to the outputs.
-Discretize the system in terms of velocity $v$ and the sampling time $T_s$ using exact discretisation (if you do not remember how, have a look at chapter 1.4 in [](#bib:SigSys)) and test your discretization using the provided [Matlab-files](https://github.com/duckietown/docs-exercises/tree/master19/book/exercises/200_control_systems/additional_material)). What do you observe?
+Discretize the system in terms of velocity $v$ and the sampling time $T$ using exact discretisation (if you do not remember how, have a look at chapter 1.4 in [](#bib:SigSys)) and test your discretization using the provided [Matlab-files](https://github.com/duckietown/docs-exercises/tree/master19/book/exercises/200_control_systems/additional_material)). What do you observe?
 Add the found matrices in the template `controller-2.py`.
 
 <end/>
