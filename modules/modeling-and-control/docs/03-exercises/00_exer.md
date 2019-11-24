@@ -97,7 +97,7 @@ Now you are ready to implement a PI controller using different discretization me
 <br />
 
 ##### Assume constant sampling time
-In a first attempt, you can use an approximation for your sampling time. The Duckiebot typically updates its lane pose estimate, i.e. where the Duckiebot thinks it is placed within the lane, at around 12 Hz. If you assume this sampling rate to be constant, you can easily discretize the PI controller you designed. Implement your PI controller under the assumption of a constant sampling in the file `controller-1.py`. When discretizing the system, choose Euler forward as the discretization technique (if you do not remember how, have a look at chapter 2.3 in [](#bib:Zardini)).  TODO: ADD REFERENCE
+In a first attempt, you can use an approximation for your sampling time. The Duckiebot typically updates its lane pose estimate, i.e. where the Duckiebot thinks it is placed within the lane, at around 12 Hz. If you assume this sampling rate to be constant, you can easily discretize the PI controller you designed. Implement your PI controller under the assumption of a constant sampling in the file `controller-1.py`. When discretizing the system, choose Euler forward as the discretization technique (if you do not remember how, have a look at chapter 2.3 in [](#bib:Zardini)).
 You can run the controller you just designed by executing the following command:
 
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
@@ -203,7 +203,7 @@ As in the part above, you will start with the model of the Duckiebot. This time 
 $\dot{\vec{x}}=A\vec{x}+Bu=\begin{bmatrix}0 & v\\ 0 & 0\end{bmatrix}\vec{x}+\begin{bmatrix}0\\1\end{bmatrix}u$
 $\vec{y}=C\vec{x}=\begin{bmatrix}1 & 0\\ 0 & 1 \end{bmatrix}\vec{x}$
 With state vector $\vec{x}=\begin{bmatrix}d, & \varphi\end{bmatrix}^T$ and input $u=\omega$. Notice, that the matrix $C$ is an identity matrix, which means that the states are directly mapped to the outputs.
-Discretize the system in terms of velocity $v$ and the sampling time $T_s$ using exact discretisation (if you do not remember how, have a look at chapter 1.4 in [](#bib:SigSys)) TODO: ADD REFERENCE and test your discretization using the provided [Matlab-files](https://github.com/duckietown/docs-exercises/tree/master19/book/exercises/200_control_systems/additional_material)). What do you observe?
+Discretize the system in terms of velocity $v$ and the sampling time $T_s$ using exact discretisation (if you do not remember how, have a look at chapter 1.4 in [](#bib:SigSys)) and test your discretization using the provided [Matlab-files](https://github.com/duckietown/docs-exercises/tree/master19/book/exercises/200_control_systems/additional_material)). What do you observe?
 Add the found matrices in the template `controller-2.py`.
 
 <end/>
