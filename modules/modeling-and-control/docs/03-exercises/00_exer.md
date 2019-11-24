@@ -7,13 +7,13 @@ In this exercise you will learn how to implement different control algorithms on
 <div class='requirements' markdown='1'>
 
   Requires: [Terminal Basics](+duckietown-robotics-development#terminal-basics)
-  
+
   Requires: [Docker Basics](+duckietown-robotics-development#docker-basics)
-  
+
   Requires: Control Theory Basics
-  
+
   Results: Ability to implement a controller on a real robot.
-  
+
 </div>
 
 <minitoc/>
@@ -34,7 +34,7 @@ $\dot{\vec{x}} = \begin{bmatrix} v\cdot \sin(\varphi) \\ \omega \end{bmatrix}$.
     <img figure-id="fig:duckiebot_topview" figure-caption="Top view of the Duckiebot on a road with its two states." style="width: 75%; height: auto;" src="duckiebot_topview.pdf"/>
 </figure>
 
-After linearization around the operation point $\vec{x}_\text{e}=\begin{bmatrix} 0&0 \end{bmatrix}^\intercal$ (if you do not remember linearization, have a look at chapter 5.4 in [](#bib:Astr)), one has 
+After linearization around the operation point $\vec{x}_\text{e}=\begin{bmatrix} 0&0 \end{bmatrix}^\intercal$ (if you do not remember linearization, have a look at chapter 5.4 in [](#bib:Astr)), one has
 $\dot{x}(t)= \begin{bmatrix} 0&v \\ 0&0 \end{bmatrix}x(t) + \begin{bmatrix} 0 & 1 \end{bmatrix}u(t).$
 Furthermore, you are provided the output model
 
@@ -50,11 +50,11 @@ Consider now the error to be $e(t)=r(t)-y(t)$. Using a PI-controller (if you do 
 
 $u(t) = k_\text{P}\left(e(t) + \frac{1}{T_I}\int_{0}^{t}e(\tau) d\tau\right) = k_\text{P} e(t) + k_\text{I}\int_{0}^{t}e(\tau) d\tau$
 
-In frequency domain, this corresponds to 
+In frequency domain, this corresponds to
 
 $U(s)=C(s)E(s)$,    
 
-with 
+with
 
 $C(s)= k_\text{P}+\frac{k_\text{I}}{s}$
 
@@ -62,17 +62,17 @@ $C(s)= k_\text{P}+\frac{k_\text{I}}{s}$
 Using the above defined model of the Duckiebot and the structure for a PI controller, find the parameters for the proportional and integral gain of your PI controller such that the closed-loop system is stable. You can follow the steps below to do this: <br />
 
 - For the Duckiebot you are assuming a constant linear velocity $v = 0.22 \text{m/s}$. Given this velocity and using a tool of your choice (for example the [Duckiebot bodeplot tool](https://julien.li/submit/bodeplot/)), find a proportional gain $k_\text{P}$ such that $L(s) = P(s)C(s)$ has a crossover frequency of
-approximately $4.2 \text{rad/s}$. 
+approximately $4.2 \text{rad/s}$.
 
 - Next, find an integral gain $k_\text{I}$ such that $L(s)$ has a gain margin of approximately $-25.6dB \approx 0.053$.
 (this refers to a gain of the controller which is about 19 times higher than the critical minimal gain that is needed for stability).
 
-The aforementioned numbers are needed in order to guarantee stability. You are free to play around with them and see for yourself how this impacts the behaviour of your Duckiebot. 
+The aforementioned numbers are needed in order to guarantee stability. You are free to play around with them and see for yourself how this impacts the behaviour of your Duckiebot.
 
 <end/>
 
 ### Discretization
-Now that you have found a continuous time controller, you need to discretize it in order to implement it on your Duckiebot. There are several ways of doing this. 
+Now that you have found a continuous time controller, you need to discretize it in order to implement it on your Duckiebot. There are several ways of doing this.
 In the following exercise, you are asked to implement the designed PI controller in reality, using different discretization techniques.
 
 #### Discretization of a PI controller {#exercise:discretize-pi}
@@ -80,11 +80,11 @@ There is a template for this and the following exercises of this chapter. It is 
 Start by pulling the image and running the container with the following command:
 
     laptop $ docker -H ![DUCKIEBOT_NAME].local run --name dt-core-CRA3 -v /data:/data --privileged --network=host -it duckietown/dt-core:CRA3-template /bin/bash
-    
+
 Note: in case you have to stop the container at any point (in case you take a break or the Duckiebot decides to crash and therefore makes you take a break), start the container again (for example by using the portainer interface (`http://hostname.local:9000/#/containers`)) and jump into it using the following command:
-    
+
     laptop $ docker -H ![DUCKIEBOT_NAME].local attach dt-core-CRA3
-    
+
 The text editor _vim_ is already installed inside the container such that you can change and adjust files within the container without having to rebuild the image every time you want to change something. If you are not familiar with vim, you can either read through this [short beginners guide to vim](https://www.linux.com/tutorials/vim-101-beginners-guide-vim/) or install another text editor of your choice. <br />
 Now use vim or your preferred text editor
 to open the file `controller-1.py` which can be found in the folder `CRA3`.
@@ -99,9 +99,9 @@ Now you are ready to implement a PI controller using different discretization me
 ##### Assume constant sampling time
 In a first attempt, you can use an approximation for your sampling time. The Duckiebot typically updates its lane pose estimate, i.e. where the Duckiebot thinks it is placed within the lane, at around 12 Hz. If you assume this sampling rate to be constant, you can easily discretize the PI controller you designed. Implement your PI controller under the assumption of a constant sampling in the file `controller-1.py`. When discretizing the system, choose Euler forward as the discretization technique (if you do not remember how, have a look at chapter 2.3 in [](#bib:Zardini)).  TODO: ADD REFERENCE
 You can run the controller you just designed by executing the following command:
-    
+
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
-    
+
 Observe the behaviour of the Duckiebot. Does it perform well? What do you observe? Think about why this is the case.
 
 *Optional*: repeat the above task using the Tustin discretization method. Do you observe any difference? <br />
@@ -117,17 +117,17 @@ Observe the behaviour again, what differences do you notice? Why is that? <br />
 In the last exercise you implemented a discrete time controller and saw how slight variations in the sampling time can have an impact on the performance of the Duckiebot. You now want to further explore how the sampling time impacts the performance of the controller by increasing it and observing the outcome. For the following, consider Euler forward as the discretization technique.
 The model of a Duckiebot only works on a specific range of consequent states $[d_{i,i+1},\varphi_{i,i+1}]$. If these values grow too abruptly, the camera loses sight of the lines and the estimation
 of the output $y$ is not anymore possible. By increasing $k_\text{s}$ in `controller-1.py`, check how much you can reduce the sampling rate before the system destabilizes. Notice that since your controller is discrete, you can only increase the sampling time $T$ in discrete steps $k_\text{s}$ where $T_\text{new} = k_\text{s}\cdot T$.
-This functionality is already implemented in the lane controller node for you. To reduce the sampling rate, the Duckiebot only handles every $k_\text{s}$-th measurement ($\text{\#measurements} \bmod k_\text{s} \equiv 0$), and drops all the other measurements.
+This functionality is already implemented in the lane controller node for you. To reduce the sampling rate, the Duckiebot only handles every $k_\text{s}$-th measurement ($\text{#measurements} \bmod k_\text{s} \equiv 0$), and drops all the other measurements.
 Adjust the parameter $k_\text{s}$ such that the Duckiebot becomes unstable. What is the approximate sampling time when the Duckiebot becomes unstable?  
 Again run your code with:
-    
+
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
 
 After you have found a value for $k_\text{s}$ that destabilizes your Duckiebot, try to improve the robustness of your controller against the smaller sampling rate and make it
 stable again. There are different ways to do this. Explain how you did it and why.
 
-<end/> 
- 
+<end/>
+
 ### Latency of the estimate
 Until now, the delay which is present in the Duckiebot (the plant) has not been explicitly addressed. From the moment an image is recorded until the lane pose estimate is available, it takes roughly 85ms. This implies that you will never be able to act upon the exact state that your Duckiebot is observed to be in. In the following exercise you will examine how the Duckiebot behaves if this delay between image acquisition and pose estimation changes.
 
@@ -145,14 +145,14 @@ Before you can reach the theoretical limit you found in the previous task, the D
 Again run your code with:
 
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
-    
+
 How big is the difference between the theoretical and the practical limit? <br />
 *Optional*: Check if using another discretization technique substantially changes these numbers.
 
 <end/>  
 
 ### Increase performance of your PI controller
-The integral part in the controller comes with a drawback in a real system: Due to the fact that the motors on a Duckiebot can only run up to a specific speed, you are not able to perform unbounded high inputs demanded by the controller. 
+The integral part in the controller comes with a drawback in a real system: Due to the fact that the motors on a Duckiebot can only run up to a specific speed, you are not able to perform unbounded high inputs demanded by the controller.
 If the Duckiebot cannot execute the commands which the controller demands, the difference between the demanded input and the executed input will remain and therefore be added on top of the demanded input which is already too high to be executed.
 This leads us to a situation in which the integral term can become very large. If you now reach your desired equilibrium point, the integrator will still have a large value, causing the Duckiebot to overshoot. <br />
 But behold, there is a solution to this problem! It is called anti-windup filter and will be examined in the next exercise.   
@@ -172,7 +172,7 @@ In order to avoid destabilization and improve the performance of the system, set
 You can run your code as before with:
 
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=1
-    
+
 *Optional:* With different values of $k_P$ and $k_I$, one could improve the behaviour even more.
 
 ##### Template for saturation function:
@@ -194,8 +194,8 @@ Therefore, it would be useful to have a control algorithm which does not depend 
 In the last two exercise parts, you will look at a different controller which will help us solve the above mentioned problems; namely a Linear-Quadratic-Regulator (LQR).
 
 ## Linear Quadratic Regulator (*Optional*)
-A Linear Quadratic Regulator (LQR) is a a state feedback control approach which works by minimizing a cost function. This approach is especially suitable if we want to have some high-level tuning parameters where the cost can be traded off against the performance of the controller. Here, we typically refer to "cost" as the needed input $u(t)$ and "performance" as the reference tracking and robustness characteristics of the controller. 
-In addition, LQR control works well even when no precise model is available as it is often the case in practical applications. This makes it a suitable controller for real world applications. 
+A Linear Quadratic Regulator (LQR) is a a state feedback control approach which works by minimizing a cost function. This approach is especially suitable if we want to have some high-level tuning parameters where the cost can be traded off against the performance of the controller. Here, we typically refer to "cost" as the needed input $u(t)$ and "performance" as the reference tracking and robustness characteristics of the controller.
+In addition, LQR control works well even when no precise model is available as it is often the case in practical applications. This makes it a suitable controller for real world applications.
 
 
 #### Discretize the model {#exercise:discretize-model}
@@ -224,7 +224,7 @@ To solve this equation use the Python control library (see [Python control libra
 
 ##### A  word on weighting
 In general, it is a good idea to choose the weighting matrices to be diagonal, as this gives you the freedom of weighting every state individually. Also you should normalize your $R$ and $Q$ matrices. Choose the corresponding weights and tune them until you achieve a satisfying behaviour on the track.
-To find suitable parameters for the weighting matrices, keep in mind that we are finding our control input by minimizing a cost function of the form 
+To find suitable parameters for the weighting matrices, keep in mind that we are finding our control input by minimizing a cost function of the form
 
 \begin{equation}
 u_{LQR}(t) = \underset{u(t)}{\text{argmin}} \phantom{0} J_{LQR}(u(t)) = \underset{u(t)}{\text{argmin}} \phantom{0} \int_{0}^{\infty} u^TRu + x^TQx + 2x^TNu ~ dt
@@ -237,7 +237,7 @@ Last but not least, choosing N=0 is typical as it provides guarantees on perform
 Once you are ready, run your LQR with:
 
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=2
-    
+
 Explain what happens when you assign the entries in your weighting matrices different values. Can you describe it intuitively?
 
 <end/>
@@ -258,7 +258,7 @@ Now discretize the above system as before and extend the state space matrices an
 Run it again with
 
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=2
-    
+
 How does your controller perform now?
 TODO: Missing the part where we explain that we are not dealing with a LQR, but with a LQ"G". cioè
 
