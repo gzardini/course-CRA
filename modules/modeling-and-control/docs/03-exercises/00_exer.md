@@ -35,7 +35,7 @@ $\dot{\vec{x}} = \begin{bmatrix} v\cdot \sin(\varphi) \\ \omega \end{bmatrix}$. 
 </figure>
 
 After linearization around the operation point $\vec{x}_\text{e}=\begin{bmatrix} 0&0 \end{bmatrix}^\intercal$ (if you do not remember linearization, have a look at chapter 5.4 in [](#bib:Astr)), one has
-$\dot{x}(t)= \begin{bmatrix} 0&v \\ 0&0 \end{bmatrix}x(t) + \begin{bmatrix} 0 & 1 \end{bmatrix}u(t)$ where the input $u(t)$ is the desired yaw rate of the Duckiebot.
+$\dot{x}(t)= \begin{bmatrix} 0&v \\ 0&0 \end{bmatrix}x(t) + \begin{bmatrix} 0 \\ 1 \end{bmatrix}u(t)$ where the input $u(t)$ is the desired yaw rate of the Duckiebot.
 Furthermore, you are provided the output model
 
 $y(t)=\begin{bmatrix} 6&1 \end{bmatrix}\vec{x}(t).$
