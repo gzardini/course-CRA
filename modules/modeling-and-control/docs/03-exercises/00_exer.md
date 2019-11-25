@@ -27,12 +27,13 @@ In a second step, you will implement a Linear Quadratic Regulator, or LQR for sh
 ## PI control {#cra-mac-pi-control}
 
 ### Modeling
-As you have learned, using Fig. [](#fig:duckiebot_topview) one can derive a continuous-time nonlinear model for the Duckiebot. Considering the state $\vec{x}(t)=\begin{bmatrix} d& \varphi \end{bmatrix}^\intercal$, one can write
+As you have learned, using [](#fig:duckiebot_topview) one can derive a continuous-time nonlinear model for the Duckiebot. Considering the state $\vec{x}(t)=\begin{bmatrix} d& \varphi \end{bmatrix}^\intercal$, one can write
 $\dot{\vec{x}} = \begin{bmatrix} v\cdot \sin(\varphi) \\ \omega \end{bmatrix}$. Where $v$ is the linear velocity and $\omega$ the yaw rate of the Duckiebot.
 
-<figure>
-    <img figure-id="fig:duckiebot_topview" figure-caption="Top view of the Duckiebot on a road with its two states." style="width: 75%; height: auto;" src="duckiebot_topview.pdf"/>
-</figure>
+<div figure-id="fig:duckiebot_topview">
+  <figcaption> "Top view of the Duckiebot on a road with its two states." </figcaption>
+  <img style="width: 75%; height: auto;" src="duckiebot_topview.pdf"/>
+</div>
 
 After linearization around the operation point $\vec{x}_\text{e}=\begin{bmatrix} 0&0 \end{bmatrix}^\intercal$ (if you do not remember linearization, have a look at chapter 5.4 in [](#bib:Astr)), one has
 $\dot{x}(t)= \begin{bmatrix} 0&v \\ 0&0 \end{bmatrix}x(t) + \begin{bmatrix} 0 \\ 1 \end{bmatrix}u(t)$ where the input $u(t)$ is the desired yaw rate of the Duckiebot.
@@ -162,13 +163,14 @@ But behold, there is a solution to this problem! It is called anti-windup filter
 #### Effect of an Anti-Windup Filter {#exercise:anti-windup}
 In [](#fig:anti_reset_windup_ex), you can see a diagram of an anti-windup logic for a PI-controller. $k_\text{t}$ determines how fast the integral is reset and is usually chosen in the order of $k_\text{I}$.
 
-<figure>
-    <img figure-id="fig:anti_reset_windup_ex" figure-caption="A PI-controller with an anti-windup logic implemented, Feedback Systems from Aström and Murray, page 308." style="width: 75%; height: auto;" src="PI-with-anti-windup.png"/>
-</figure>
+<div figure-id="fig:anti_reset_windup_ex">
+  <figcaption> A PI-controller with an anti-windup logic implemented, Feedback Systems from Aström and Murray, page 308.</figcaption>
+  <img style="width: 75%; height: auto;" src="PI-with-anti-windup.png"/>
+</div>
 
 Typically, the actuator saturation (i.e. when it reaches its physical limit) can be measured. In our case, however, as there is no feedback on the wheels commands that are being executed, we will make an assumption. You will simulate a saturation of the motors at a value of $u_\text{sat} = 2\text{rad/s}$. <br />
 Below you can find a simple helper function that you can use to add an anti-windup to your existing PI controller. It takes an unbounded input and limits it to the mentioned saturation input value $u_\text{sat}$. Use it to extend your existing PI controller with an anti-windup scheme. <br />
-Furthermore you are given the parameter $k_\text{t}$ in the file `controller-1.py`. It shall be used as a gain on the difference between the input $u$ and the saturation input value $u_\text{sat}$ which is fed back to the integrator part of the controller as it is shown in Fig. [](#fig:anti_reset_windup_ex).
+Furthermore you are given the parameter $k_\text{t}$ in the file `controller-1.py`. It shall be used as a gain on the difference between the input $u$ and the saturation input value $u_\text{sat}$ which is fed back to the integrator part of the controller as it is shown in [](#fig:anti_reset_windup_ex).
 As a first step, test the performance of the Duckiebot with the anti-windup term turned off (i.e. $k_\text{t} = 0$). You will see that the performance is poor after curves. If you increase the integral gain $k_\text{I}$, you are even able to destabilize the system!
 In order to avoid destabilization and improve the performance of the system, set $k_\text{t}$ to roughly the same value as $k_\text{I}$. Note the difference!
 You can run your code as before with:
@@ -211,11 +213,12 @@ Add the found matrices in the template `controller-2.py`.
 <end/>
 
 #### Implement a LQR {#exercise:LQR}
-To achieve a better lane following behaviour, a LQR can be implemented. The structure of a state feedback controller such as the LQR looks as in Fig. [](#fig:lqr-feedback):
+To achieve a better lane following behaviour, a LQR can be implemented. The structure of a state feedback controller such as the LQR looks as in [](#fig:lqr-feedback):
 
-<figure>
-    <img figure-id="fig:lqr-feedback" figure-caption="Block diagram of a state feedback control." style="width: 70%; height: auto;" src="lqr_feedback.png"/>
-</figure>
+<div figure-id="fig:lqr-feedback">
+ <figcaption> Block diagram of a state feedback control.</figcaption>
+ <img style="width: 70%; height: auto;" src="lqr_feedback.png"/>
+</div>
 
 Because of limited computation resources, a steady-state (or _infinite horizon_) version of the LQR will be implemented. Because you are considering the discrete time model of the Duckiebot, the Discrete-time Algebraic Riccati Equation (DARE) has to be solved:
 
