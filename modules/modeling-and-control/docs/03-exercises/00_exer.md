@@ -227,17 +227,18 @@ $\Phi = A^T\Phi A - (A^T \Phi B)(R+B^T \Phi B)^{-1}(B^T \Phi A)+Q$
 To solve this equation use the Python control library (see [Python control library documentation](https://python-control.readthedocs.io/en/0.8.2/)). <br />
 <br />
 
+Note that what you will implement is not exactly a LQR controller. In fact, since you have state estimation, it would be preciser to talk about a LQG. However, the state estimation is not a proper gaussian filter, meaning that you are dealing with a LQGish.
+
 ##### A  word on weighting
 In general, it is a good idea to choose the weighting matrices to be diagonal, as this gives you the freedom of weighting every state individually. Also you should normalize your $R$ and $Q$ matrices. Choose the corresponding weights and tune them until you achieve a satisfying behaviour on the track.
 To find suitable parameters for the weighting matrices, keep in mind that we are finding our control input by minimizing a cost function of the form
 
 \begin{equation}
-u_{LQR}(t) = \underset{u(t)}{\text{argmin}} \phantom{0} J_{LQR}(u(t)) = \underset{u(t)}{\text{argmin}} \phantom{0} \int_{0}^{\infty} u^TRu + x^TQx + 2x^TNu ~ dt
+u_{LQR}(t) = \underset{u(t)}{\text{argmin}} \phantom{0} J_{LQR}(u(t)) = \underset{u(t)}{\text{argmin}} \phantom{0} \int_{0}^{\infty} u^TRu + x^TQx ~ dt
 \end{equation}
 
 So intuitively, one can note that a low weight on a certain state means that it has less of an impact when trying to minimize the overall cost function. A high weight means that we want to minimize this state more in order to minimize the overall function. <br />
 For example, if we give a low weight on the input $u(t)$, i.e. the weighting matrix $R$ contains smaller values than the weighting matrix $Q$, the controller will care less about the input used and therefore converge to the desired reference faster. <br />
-Last but not least, choosing N=0 is typical as it provides guarantees on performance and robustness.
 
 Once you are ready, run your LQR with:
 
@@ -265,6 +266,5 @@ Run it again with
     laptop-container $ roslaunch duckietown_demos lane_following_exercise.launch veh:=![DUCKIEBOT_NAME] exercise_name:=2
 
 How does your controller perform now?
-TODO: Missing the part where we explain that we are not dealing with a LQR, but with a LQ"G". cioè
 
 <end/>
