@@ -31,7 +31,7 @@ As you have learned, using [](#fig:duckiebot_topview) one can derive a continuou
 $\dot{\vec{x}} = \begin{bmatrix} v\cdot \sin(\varphi) \\ \omega \end{bmatrix}$. Where $v$ is the linear velocity and $\omega$ the yaw rate of the Duckiebot.
 
 <div figure-id="fig:duckiebot_topview">
-  <figcaption> "Top view of the Duckiebot on a road with its two states." </figcaption>
+  <figcaption> Top view of the Duckiebot on a road with its two states. </figcaption>
   <img style="width: 75%; height: auto;" src="duckiebot_topview.pdf"/>
 </div>
 
